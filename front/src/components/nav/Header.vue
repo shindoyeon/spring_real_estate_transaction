@@ -23,7 +23,7 @@
             ></b-nav-item
           >
           <b-nav-item href="#" class="nav-item"
-            ><router-link :to="{ name: 'about' }" class="nav-link"
+            ><router-link :to="{ name: 'list' }" class="nav-link"
               ><b-icon icon="building" font-scale="2"></b-icon>
               아파트매매정보</router-link
             ></b-nav-item
