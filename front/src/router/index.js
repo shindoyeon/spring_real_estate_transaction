@@ -6,6 +6,7 @@ import BoardList from "@/components/board/BoardList.vue";
 import BoardDetail from "@/components/board/BoardDetail.vue";
 import BoardModify from "@/components/board/BoardModify.vue";
 import BoardWrite from "@/components/board/BoardWrite.vue";
+import AboutView from "@/views/AboutView.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -17,11 +18,10 @@ const routes = [
   {
     path: "/about",
     name: "about",
+    component: AboutView,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
   {
     path: "/board",
