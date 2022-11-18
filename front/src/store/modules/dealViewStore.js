@@ -15,7 +15,7 @@ const dealViewStore = {
     houseList: [],
     house: null,
     curIndex: -1,
-
+    listVisible: false,
     // 메인 페이지에서 받을 키워드
     fromMainKeyword: "",
   },
@@ -57,6 +57,11 @@ const dealViewStore = {
     },
     SET_CURINDEX(state, payload) {
       state.curIndex = payload;
+      console.log(state.curIndex);
+    },
+    SET_LISTVISIBLE(state, payload) {
+      state.listVisible = payload;
+      console.log(state.listVisible);
     },
   },
   actions: {
