@@ -25,9 +25,7 @@
               type="radio"
               id="searchByKeyword"
             />
-            <label class="form-check-label" for="searchByKeyword"
-              >키워드 검색</label
-            >
+            <label class="form-check-label" for="searchByKeyword">키워드 검색</label>
           </div>
         </div>
       </div>
@@ -77,11 +75,7 @@
           class="form-control d-inline-block"
           placeholder="건물명 또는 동을 입력하세요"
         />
-        <button
-          @click="onKeywordSearch"
-          class="btn btn-primary d-inline-block"
-          type="button"
-        >
+        <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button">
           <i class="bi bi-search"></i>
         </button>
       </div>
@@ -168,12 +162,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(houseStore, [
-      "getSido",
-      "getGugun",
-      "getDong",
-      "getHouseList",
-    ]),
+    ...mapActions(houseStore, ["getSido", "getGugun", "getDong", "getHouseList"]),
     ...mapMutations(houseStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
@@ -191,7 +180,6 @@ export default {
       // console.log(this.sidoCode);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
-      console.log(this.gugunCode);
       if (this.sidoCode) this.getDong(this.gugunCode);
     },
 

@@ -58,9 +58,8 @@ const houseStore = {
       );
     },
     getGugun: ({ commit }, sidoCode) => {
-      const params = { sido: sidoCode };
       gugunList(
-        params,
+        sidoCode,
         ({ data }) => {
           commit("SET_GUGUN_LIST", data);
         },
@@ -70,9 +69,8 @@ const houseStore = {
       );
     },
     getDong: ({ commit }, gugunCode) => {
-      const params = { gugun: gugunCode };
       dongList(
-        params,
+        gugunCode,
         ({ data }) => {
           commit("SET_DONG_LIST", data);
         },

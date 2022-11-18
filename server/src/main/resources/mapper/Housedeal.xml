@@ -50,4 +50,13 @@
 		houseinfo
 		where apartmentName like concat('%',#{keyword}, '%')
 	</select>
+	
+	<select id="listByDong" parameterType="string"
+		resultType="com.ssafy.apartment.model.HouseInfoDto">
+		select aptCode,buildYear,roadName,roadNameBonbun,roadNameBubun,roadNameSeq,roadNameBasementCode,roadNameCode
+		,dong,bonbun,bubun,sigunguCode
+		,eubmyundongCode,dongCode,landCode,apartmentName,jibun,lng,lat
+		from houseinfo
+		where apartmentName like concat('%',#{keyword}, '%')
+	</select>
 </mapper>
