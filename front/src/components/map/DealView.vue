@@ -1,0 +1,179 @@
+<template>
+  <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
+    <b-icon icon="house" font-scale="2"></b-icon>
+    <div
+      v-if="salechk"
+      class="text-center text-white py-2"
+      style="background-color: #ccc"
+    >
+      <h6>매물 보기 (0개)</h6>
+    </div>
+    <div
+      v-else
+      class="text-center text-primary py-2 bg-warning"
+      style="cursor: pointer"
+    >
+      <h6>매물 보기 ({{ ongoingCount }}개)</h6>
+    </div>
+    <!-- 아파트 정보 요약 -->
+    <div class="bg-white mb-">
+      <div
+        class="p-3 border-bottom d-flex justify-content-between align-items-center"
+      >
+        <h4 class="m-0">동희아파트</h4>
+
+        <!-- 북마크 하트버튼 -->
+        <!-- <HeartBtn
+          v-if="temp"
+          class="px-1"
+          :enabled="houseList[curIndex].bookmark"
+          @changeHeartBtn="onBookmarkHouse"
+        /> -->
+        <b-icon icon="house" font-scale="2" class=""></b-icon>
+        <!-- contents -->
+        <div class="px-3">
+          <div class="border-bottom d-flex py-2">
+            <div class="text-secondary w-25">주소</div>
+            <div>대림로 29가길 10 101동 202호</div>
+          </div>
+          <div class="d-flex py-2">
+            <div class="text-secondary w-25">건축년도</div>
+            <div>1995</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 거주민 리뷰 -->
+    <div class="bg-white mb-2">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="p-3 m-0">거주민 리뷰</h5>
+
+        <b-icon icon="plus-circle" font-scale="2"></b-icon>
+      </div>
+      <div v-if="reviewchk" class="p-3 border-top">
+        <div>등록된 리뷰가 없습니다.</div>
+      </div>
+      <!-- 등록 리뷰 있을 때 v-for 속성 추가-->
+      <div v-else>
+        <div class="border-top border-bottom d-flex align-items-center p-2">
+          <div class="text-secondary ps-2 pe-3">
+            <b-icon v-if="profilechk" icon="person" font-scale="2"></b-icon>
+          </div>
+          <div class="d-flex flex-column">
+            <h6 class="m-0">신동희</h6>
+            <div class="text-secondary" style="font-size: 0.9rem">
+              2022.11.17 가입
+            </div>
+          </div>
+        </div>
+        <div class="px-3">
+          <div class="border-bottom d-flex py-2 text-danger">
+            <div class="w-25">추천점수</div>
+            <div>5</div>
+          </div>
+          <div class="border-bottom d-flex py-2">
+            <div class="text-secondary w-25">교통요건</div>
+            <div>5</div>
+          </div>
+          <div class="border-bottom d-flex py-2">
+            <div class="text-secondary w-25">거주환경</div>
+            <div>5</div>
+          </div>
+          <div class="border-bottom d-flex py-2">
+            <div class="text-secondary w-25">주변환경</div>
+            <div>5</div>
+          </div>
+          <div class="pt-2 text-secondary">종합의견</div>
+          <div class="py-2">
+            <h6>낫배두</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 실거래가 -->
+    <div class="bg-white mb-2">
+      <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
+      <div>
+        <table class="w-100">
+          <thead class="bg-secondary text-white">
+            <tr>
+              <td class="ps-3 py-1">거래일</td>
+              <td>거래가격</td>
+              <td>면적</td>
+              <td>층수</td>
+            </tr>
+          </thead>
+          <tbody class="px-2">
+            <tr v-for="index in 5" class="border-bottom" :key="index">
+              <td class="ps-3 py-2">2022</td>
+              <td>15억</td>
+              <td>강남</td>
+              <td>3층</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- 매물정보 -->
+    <div class="bg-white mb-2">
+      <div class="border-bottom"><h5 class="p-3 m-0">매물 정보</h5></div>
+      <div>
+        <table class="w-100">
+          <thead class="bg-secondary text-white">
+            <tr>
+              <td class="ps-3 py-1">타입</td>
+              <td class="w-50">제목</td>
+              <td>거래가격</td>
+              <td></td>
+            </tr>
+          </thead>
+          <tbody class="px-2">
+            <tr v-if="dealchk" class="border-bottom">
+              <td colspan="3" class="ps-3 py-2">등록된 매물이 없습니다.</td>
+            </tr>
+            <tr v-else v-for="index in 5" :key="index" class="border-bottom">
+              <td class="ps-3 py-2">빌딩</td>
+              <td>제목</td>
+              <td>1억</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "DealView",
+  comments: {},
+  data() {
+    return {
+      listVisible: true,
+      salechk: true,
+      reviewchk: false,
+      profilechk: true,
+      dealchk: false,
+    };
+  },
+};
+</script>
+
+<style>
+#showList {
+  position: absolute;
+
+  top: 20px;
+  bottom: 20px;
+  right: 20px;
+
+  width: 400px;
+  padding: 10px;
+
+  z-index: 100;
+  /* background-color:rgba(255, 244, 244, 0.8); */
+  /* opacity: 0.5; */
+
+  overflow-y: auto;
+}
+</style>

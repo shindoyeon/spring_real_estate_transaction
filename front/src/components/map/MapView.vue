@@ -1,13 +1,20 @@
 <template>
-  <div>
+  <div id="wrapper">
     <div id="map" style="width: 100%; height: 90vh"></div>
+    <deal-view />
   </div>
 </template>
 
 <script>
+import DealView from "@/components/map/DealView.vue";
+
 export default {
+  components: { DealView },
   name: "MapView",
 
+  component: {
+    DealView,
+  },
   mounted() {
     // kakao map 초기화
     if (window.kakao && window.kakao.maps) {
@@ -22,8 +29,8 @@ export default {
       document.head.appendChild(script);
     }
     // appkey 앞에 autoload=false&
-    console.log(this.prevRoute);
-    console.log(this.prevRoute.name);
+    // console.log(this.prevRoute);
+    // console.log(this.prevRoute.name);
   },
 
   methods: {
@@ -43,4 +50,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+#wrapper {
+  position: relative;
+}
+</style>

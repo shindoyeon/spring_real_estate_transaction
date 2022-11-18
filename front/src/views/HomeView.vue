@@ -6,7 +6,7 @@
 
 <script>
 // @ is an alias to /src
-import MapView from "@/components/MapView.vue";
+import MapView from "@/components/map/MapView.vue";
 
 export default {
   name: "HomeView",
