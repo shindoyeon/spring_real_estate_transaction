@@ -11,11 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ssafy.apartment.model.HouseDealDto;
+import com.ssafy.apartment.model.HouseInfoDto;
 import com.ssafy.apartment.model.service.HousedealService;
 import com.ssafy.board.model.BoardDto;
 
@@ -54,9 +56,17 @@ public class HousedealController {
 			return exceptionHandling(e);
 		}
 	}
+	
+	@GetMapping(value= "/list/keyword/{keyword}")
+	@ResponseBody
+	public ResponseEntity<List<HouseInfoDto>> keywordByList(@PathVariable("keyword") String keyword) throws Exception {
+		logger.debug("keywordByList - 호출");
+		return new ResponseEntity<List<HouseInfoDto>>(housedealService.listByKeyword(keyword), HttpStatus.OK);
+	}
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 }

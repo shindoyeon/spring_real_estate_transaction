@@ -13,7 +13,13 @@
       class="text-center text-primary py-2 bg-warning"
       style="cursor: pointer"
     >
-      <h6>매물 보기 ({{ ongoingCount }}개)</h6>
+      <input
+        @keyup.enter="onKeywordSearch"
+        type="text"
+        v-model="inputKeyword"
+        class="form-control d-inline-block"
+        placeholder="건물명 또는 동을 입력하세요"
+      />
     </div>
     <!-- 아파트 정보 요약 -->
     <div class="bg-white mb-">
@@ -144,17 +150,38 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+
+const storeName = "dealViewStore";
+
 export default {
   name: "DealView",
   comments: {},
   data() {
     return {
       listVisible: true,
-      salechk: true,
+      salechk: false,
       reviewchk: false,
       profilechk: true,
       dealchk: false,
+      inputKeyword: "",
+      eventFrom: "",
     };
+  },
+  computed: {
+    ...mapState(storeName, ["gu", "dong", "houseList", "fromMainKeyword"]),
+  },
+  methods: {
+    ...mapActions(storeName, ["getHouseListByKeyword"]),
+    onKeywordSearch() {
+      if (this.inputKeyword == "") {
+        this.$swal("키워드를 입력하세요.", { icon: "error" });
+      } else {
+        console.log("inputKeyword : " + this.inputKeyword);
+        this.eventFrom = "keyword";
+        this.getHouseListByKeyword(this.inputKeyword);
+      }
+    },
   },
 };
 </script>

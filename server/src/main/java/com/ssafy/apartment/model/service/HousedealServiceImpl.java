@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.apartment.model.HouseDealDto;
+import com.ssafy.apartment.model.HouseInfoDto;
 import com.ssafy.apartment.model.mapper.HousedealMapper;
 
 @Service
@@ -28,6 +29,11 @@ public class HousedealServiceImpl implements HousedealService{
 	@Override
 	public List<HouseDealDto> listAll(Map<String, String> map) throws Exception {
 		return housedealMapper.listAll(map);
+	}
+	
+	@Override
+	public List<HouseInfoDto> listByKeyword(String keyword) throws Exception {
+		return housedealMapper.listByKeyword(keyword);
 	}
 
 	
