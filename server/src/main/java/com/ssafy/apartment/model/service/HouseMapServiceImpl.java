@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.apartment.model.HouseInfoDto;
 import com.ssafy.apartment.model.SidoGugunCodeDto;
 import com.ssafy.apartment.model.mapper.HouseMapMapper;
 
@@ -28,6 +29,11 @@ public class HouseMapServiceImpl implements HouseMapService {
 	@Override
 	public List<SidoGugunCodeDto> getDongInGugun(String gugun) throws Exception {
 		return sqlSession.getMapper(HouseMapMapper.class).getDongInGugun(gugun);
+	}
+
+	@Override
+	public List<HouseInfoDto> getHouseListByDong(String dong) throws Exception {
+		return sqlSession.getMapper(HouseMapMapper.class).getHouseListByDong(dong);
 	}
 
 	

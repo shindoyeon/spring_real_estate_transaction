@@ -72,12 +72,7 @@ public class HousedealController {
 	@GetMapping(value= "/dong/apts/{dong}")
 	@ResponseBody
 	public ResponseEntity<List<HouseInfoDto>> aptListBydong(@PathVariable("dong") String dong) throws Exception {
-		logger.debug("keywordByList - 호출");
+		logger.debug("aptListBydong - 호출");
 		return new ResponseEntity<List<HouseInfoDto>>(housedealService.listByKeyword(dong), HttpStatus.OK);
-	}
-
-	private ResponseEntity<String> exceptionHandling(Exception e) {
-		e.printStackTrace();
-		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
