@@ -55,7 +55,8 @@
 </template>
 
 <script>
-import http from "@/api/http.js";
+import { apiInstance } from "@/api/index.js";
+const http = apiInstance();
 export default {
   name: "BoardModify",
   data() {
@@ -71,7 +72,7 @@ export default {
   created() {
     let no = this.$route.params.no;
     http
-      .get(`/detail/${no}`)
+      .get(`/board/detail/${no}`)
       .then(({ data }) => {
         this.articleNo = data.articleNo;
         this.userId = data.userId;
@@ -99,7 +100,7 @@ export default {
         content: this.content,
       };
       http
-        .put(`/modify/`, myData)
+        .put(`/board/modify/`, myData)
         .then(({ data }) => {
           if (data != null) alert("성공적으로 글을 수정하였습니다.");
           this.moveBoard(this.articleNo);

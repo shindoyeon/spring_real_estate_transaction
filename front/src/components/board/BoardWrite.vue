@@ -45,7 +45,8 @@
 </template>
 
 <script>
-import http from "@/api/http.js";
+import { apiInstance } from "@/api/index.js";
+const http = apiInstance();
 export default {
   name: "BoardWrite",
   data() {
@@ -102,7 +103,7 @@ export default {
       };
       console.log(myData);
       http
-        .post(`/write`, myData)
+        .post(`/board/write`, myData)
         .then(({ data }) => {
           if (data != null) alert("성공적으로 글을 작성하였습니다.");
           this.moveList();

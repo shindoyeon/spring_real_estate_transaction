@@ -1,19 +1,21 @@
 <template>
   <div id="wrapper">
     <div id="map" style="width: 100%; height: 90vh"></div>
+    <search-view />
     <deal-view />
   </div>
 </template>
 
 <script>
 import DealView from "@/components/map/DealView.vue";
-
+import SearchView from "@/components/map/SearchView.vue";
 export default {
-  components: { DealView },
+  components: { DealView, SearchView },
   name: "MapView",
 
   component: {
     DealView,
+    SearchView,
   },
   mounted() {
     // kakao map 초기화

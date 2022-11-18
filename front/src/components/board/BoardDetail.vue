@@ -61,7 +61,8 @@
 </template>
 
 <script>
-import http from "@/api/http.js";
+import { apiInstance } from "@/api/index.js";
+const http = apiInstance();
 export default {
   name: "BoardDetail",
   data() {
@@ -78,7 +79,7 @@ export default {
     let no = this.$route.params.no;
 
     http
-      .get(`/detail/${no}`)
+      .get(`/board/detail/${no}`)
       .then(({ data }) => {
         this.articleNo = data.articleNo;
         this.userId = data.userId;
@@ -96,7 +97,7 @@ export default {
       this.$router.push(`/board/modify/${no}`);
     },
     deleteArticle(no) {
-      http.delete(`/delete/${no}`).then(({ data }) => {
+      http.delete(`/board/delete/${no}`).then(({ data }) => {
         let msg = "삭제 처리시 문제가 발생했습니다.";
         if (data === "success") {
           msg = "삭제가 완료되었습니다.";
