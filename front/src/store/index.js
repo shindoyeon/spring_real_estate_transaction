@@ -4,12 +4,13 @@ import createPersistedState from "vuex-persistedstate";
 // module import
 
 import dealViewStore from "./modules/dealViewStore";
-
+import memberStore from "./modules/memberStore";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
     dealViewStore,
+    memberStore,
   },
   plugins: [
     createPersistedState({

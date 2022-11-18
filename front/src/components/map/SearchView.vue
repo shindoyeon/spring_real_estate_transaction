@@ -1,6 +1,5 @@
 <template>
   <div id="searchBox" class="card">
-    <link rel="stylesheet" href="../assets/css/al.style.min.css" />
     <div>
       <div class="p-2">
         <div class="d-flex">
