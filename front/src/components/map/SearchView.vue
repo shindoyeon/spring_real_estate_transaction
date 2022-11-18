@@ -1,13 +1,14 @@
 <template>
   <div id="searchBox" class="card">
+    <link rel="stylesheet" href="../assets/css/al.style.min.css" />
     <div>
       <div class="p-2">
         <div class="d-flex">
-          <i class="fa fa-search"></i>
+          <b-icon icon="search"></b-icon>
           <h6 class="ps-2">검색 방법을 선택하세요</h6>
         </div>
         <div class="py-1 px-2 d-flex">
-          <div class="fƒorm-check pe-3">
+          <div class="ƒorm-check pe-3">
             <input
               value="D"
               v-model="searchType"
@@ -25,7 +26,9 @@
               type="radio"
               id="searchByKeyword"
             />
-            <label class="form-check-label" for="searchByKeyword">키워드 검색</label>
+            <label class="form-check-label" for="searchByKeyword"
+              >키워드 검색</label
+            >
           </div>
         </div>
       </div>
@@ -59,7 +62,7 @@
             <b-form-select
               v-model="dongCode"
               :options="dongs"
-              @change="aptList"
+              @change="onDongMenuChange"
               class="array-select form-control form-select"
               aria-label="example"
               >동
@@ -75,8 +78,12 @@
           class="form-control d-inline-block"
           placeholder="건물명 또는 동을 입력하세요"
         />
-        <button @click="onKeywordSearch" class="btn btn-primary d-inline-block" type="button">
-          <i class="bi bi-search"></i>
+        <button
+          @click="onKeywordSearch"
+          class="btn btn-primary d-inline-block"
+          type="button"
+        >
+          <b-icon icon="search"></b-icon>
         </button>
       </div>
     </div>
@@ -84,7 +91,7 @@
 </template>
 <script>
 import { mapState, mapActions, mapMutations } from "vuex";
-const houseStore = "houseStore";
+const dealViewStore = "dealViewStore";
 
 export default {
   name: "SearchView",
@@ -115,7 +122,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(houseStore, ["sidos", "guguns", "dongs", "houses"]),
+    ...mapState(dealViewStore, ["sidos", "guguns", "dongs", "houseList"]),
   },
   created() {
     this.initSearchByDongBox();
@@ -139,35 +146,20 @@ export default {
         console.log("watch K");
       }
     },
-    houseList: function () {
-      console.log("houseList change");
-      this.removeMarkers();
-      this.listVisible = false;
-      if (this.houseList.length) {
-        this.addMarkers(this.houseList);
-        console.log(this.houseList);
-        this.$swal(`총 ${this.houseList.length}건의 데이터가 검색되었습니다.`, {
-          icon: "success",
-        });
-      } else {
-        if (this.eventFrom === "dong")
-          this.$swal(`${this.selectDongName}에 등록된 건물 정보가 없습니다.`, {
-            icon: "error",
-          });
-        else if (this.eventFrom === "keyword")
-          this.$swal(`키워드 '${this.inputKeyword}'에 대한 정보가 없습니다.`, {
-            icon: "error",
-          });
-      }
-    },
   },
   methods: {
-    ...mapActions(houseStore, ["getSido", "getGugun", "getDong", "getHouseList"]),
-    ...mapMutations(houseStore, [
+    ...mapActions(dealViewStore, [
+      "getSido",
+      "getGugun",
+      "getDong",
+      "getHouseListByDong",
+      "getHouseListByKeyword",
+    ]),
+    ...mapMutations(dealViewStore, [
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
-      "CLEAR_APT_LIST",
+      "CLEAR_HOUSE_LIST",
     ]),
     gugunList() {
       // console.log(this.sidoCode);
@@ -177,21 +169,27 @@ export default {
     },
 
     dongList() {
-      // console.log(this.sidoCode);
       this.CLEAR_DONG_LIST();
       this.dongCode = null;
       if (this.sidoCode) this.getDong(this.gugunCode);
     },
 
+    onDongMenuChange() {
+      this.getHouseListByDong(this.dongCode);
+      console.log(this.houseList);
+    },
+
     initSearchByDongBox() {
       this.CLEAR_SIDO_LIST();
-      this.CLEAR_APT_LIST();
+      this.CLEAR_HOUSE_LIST();
       this.getSido();
     },
+
     onKeywordSearch() {
       if (this.inputKeyword == "") {
         this.$swal("키워드를 입력하세요.", { icon: "error" });
       } else {
+        console.log("inputKeyword : " + this.inputKeyword);
         this.eventFrom = "keyword";
         this.getHouseListByKeyword(this.inputKeyword);
       }

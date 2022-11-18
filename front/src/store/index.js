@@ -3,14 +3,12 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 // module import
 
-import houseStore from "@/store/modules/houseStore";
 import dealViewStore from "./modules/dealViewStore";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    houseStore,
     dealViewStore,
   },
   plugins: [
