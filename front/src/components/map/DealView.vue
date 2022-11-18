@@ -1,6 +1,6 @@
 <template>
   <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
-    <b-icon icon="house" font-scale="2"></b-icon>
+    <!-- <b-icon icon="house" font-scale="2"></b-icon> -->
     <div
       v-if="salechk"
       class="text-center text-white py-2"
@@ -12,21 +12,13 @@
       v-else
       class="text-center text-primary py-2 bg-warning"
       style="cursor: pointer"
-    >
-      <input
-        @keyup.enter="onKeywordSearch"
-        type="text"
-        v-model="inputKeyword"
-        class="form-control d-inline-block"
-        placeholder="건물명 또는 동을 입력하세요"
-      />
-    </div>
+    ></div>
     <!-- 아파트 정보 요약 -->
     <div class="bg-white mb-">
       <div
         class="p-3 border-bottom d-flex justify-content-between align-items-center"
       >
-        <h4 class="m-0">동희아파트</h4>
+        <h4 class="m-0">{{ houseList[curIndex].apartmentName }}</h4>
 
         <!-- 북마크 하트버튼 -->
         <!-- <HeartBtn
@@ -40,11 +32,12 @@
         <div class="px-3">
           <div class="border-bottom d-flex py-2">
             <div class="text-secondary w-25">주소</div>
-            <div>대림로 29가길 10 101동 202호</div>
+            {{ houseList[curIndex].dong }}
+            {{ houseList[curIndex].jibun }}
           </div>
           <div class="d-flex py-2">
             <div class="text-secondary w-25">건축년도</div>
-            <div>1995</div>
+            <div>{{ houseList[curIndex].buildYear }}</div>
           </div>
         </div>
       </div>
@@ -159,7 +152,6 @@ export default {
   comments: {},
   data() {
     return {
-      listVisible: true,
       salechk: false,
       reviewchk: false,
       profilechk: true,
@@ -169,7 +161,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(storeName, ["gu", "dong", "houseList", "fromMainKeyword"]),
+    ...mapState(storeName, [
+      "gu",
+      "dong",
+      "houseList",
+      "fromMainKeyword",
+      "curIndex",
+      "listVisible",
+    ]),
   },
   methods: {
     ...mapActions(storeName, ["getHouseListByKeyword"]),

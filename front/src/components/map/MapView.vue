@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import DealView from "@/components/map/DealView.vue";
 import SearchView from "@/components/map/SearchView.vue";
 import { apiInstance } from "@/api/index.js";
@@ -23,7 +23,6 @@ export default {
     return {
       markers: [],
       map: "",
-      curIndex: -1,
       dealInfo: [],
     };
   },
@@ -33,7 +32,14 @@ export default {
     SearchView,
   },
   computed: {
-    ...mapState(storeName, ["gu", "dong", "houseList", "fromMainKeyword"]),
+    ...mapState(storeName, [
+      "gu",
+      "dong",
+      "houseList",
+      "fromMainKeyword",
+      "curIndex",
+      "listVisible",
+    ]),
   },
   watch: {
     houseList: function () {
@@ -43,7 +49,7 @@ export default {
         this.addMarkers(this.houseList);
         console.log(this.houseList);
       } else {
-        alert("정보가 없습니다.");
+        // alert("정보가 없습니다.");
       }
     },
   },
@@ -68,6 +74,7 @@ export default {
 
   methods: {
     ...mapActions(storeName, ["getHouseDeal"]),
+    ...mapMutations(storeName, ["SET_CURINDEX", "SET_LISTVISIBLE"]),
     initMap() {
       console.log("initMap");
       const mapContainer = document.getElementById("map");
@@ -109,21 +116,22 @@ export default {
       let marker = new kakao.maps.Marker({
         position: markerPosition,
       });
-      // let $this = this;
+      let $this = this;
       kakao.maps.event.addListener(marker, "click", function () {
-        // $this.showHouseDetail(index);
-        alert("인덱스:" + index);
+        $this.showHouseDetail(index);
+        // alert("인덱스:" + index);
       });
       this.markers.push(marker);
       marker.setMap(this.map);
     },
     showHouseDetail(index) {
-      this.curIndex = index;
-      const houseNo = this.houseList[index].houseNo;
-      this.getHouseDeal(houseNo);
-      this.getOngoingList(houseNo);
-      this.getHouseReview(houseNo);
-      // if (!this.listVisible) this.listVisible = true;
+      this.SET_CURINDEX(index);
+
+      // const houseNo = this.houseList[index].houseNo;
+      //this.getHouseDeal(houseNo);
+      // this.getOngoingList(houseNo);
+      // this.getHouseReview(houseNo);
+      if (!this.listVisible) this.SET_LISTVISIBLE(true);
     },
     getHouseDeal(houseNo) {
       http
