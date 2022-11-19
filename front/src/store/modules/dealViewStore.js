@@ -4,6 +4,7 @@ import {
   dongList,
   houseListByDong,
   HouseListByKeyword,
+  HouseDealList,
 } from "@/api/dealview.js";
 
 const dealViewStore = {
@@ -13,6 +14,7 @@ const dealViewStore = {
     guguns: [{ value: null, text: "구" }],
     dongs: [{ value: null, text: "동" }],
     houseList: [],
+    houseDealList: [],
     house: null,
     curIndex: -1,
     listVisible: false,
@@ -51,6 +53,9 @@ const dealViewStore = {
     },
     SET_HOUSE_LIST(state, payload) {
       state.houseList = payload;
+    },
+    SET_HOUSE_DEAL_LIST(state, payload) {
+      state.houseDealList = payload;
     },
     SET_DETAIL_HOUSE(state, house) {
       state.house = house;
@@ -117,6 +122,19 @@ const dealViewStore = {
         ({ data }) => {
           console.log(data);
           commit("SET_HOUSE_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    getHouseDealList({ commit }, houseno) {
+      console.log("houseno" + houseno);
+      HouseDealList(
+        houseno,
+        ({ data }) => {
+          console.log("housedeal:" + data);
+          commit("SET_HOUSE_DEAL_LIST", data);
         },
         (error) => {
           console.log(error);

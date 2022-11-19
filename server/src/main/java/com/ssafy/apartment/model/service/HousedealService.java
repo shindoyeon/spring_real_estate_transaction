@@ -9,6 +9,6 @@ import com.ssafy.apartment.model.HouseInfoDto;
 public interface HousedealService {
 
 	List<HouseDealDto> list() throws Exception;
-    List<HouseDealDto> listAll(Map<String, String> map) throws Exception;
     List<HouseInfoDto> listByKeyword(String keyword) throws Exception;
+	List<HouseDealDto> getHouseDeal(String houseNo) throws Exception;
 }

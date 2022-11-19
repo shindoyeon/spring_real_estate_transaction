@@ -1,5 +1,6 @@
 package com.ssafy.apartment.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +27,15 @@ public class HousedealServiceImpl implements HousedealService{
 		return housedealMapper.list();
 	}
 
-	@Override
-	public List<HouseDealDto> listAll(Map<String, String> map) throws Exception {
-		return housedealMapper.listAll(map);
-	}
 	
 	@Override
 	public List<HouseInfoDto> listByKeyword(String keyword) throws Exception {
 		return housedealMapper.listByKeyword(keyword);
+	}
+
+	@Override
+	public List<HouseDealDto> getHouseDeal(String houseNo) throws Exception {
+		return housedealMapper.getHouseDeal(houseNo);
 	}
 
 	

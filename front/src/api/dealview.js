@@ -22,4 +22,15 @@ function HouseListByKeyword(params, success, fail) {
   api.get(`/house/list/keyword/${params}`).then(success).catch(fail);
 }
 
-export { sidoList, gugunList, dongList, houseListByDong, HouseListByKeyword };
+function HouseDealList(params, success, fail) {
+  api.get(`/house/dealList/${params}`).then(success).catch(fail);
+}
+
+export {
+  sidoList,
+  gugunList,
+  dongList,
+  houseListByDong,
+  HouseListByKeyword,
+  HouseDealList,
+};

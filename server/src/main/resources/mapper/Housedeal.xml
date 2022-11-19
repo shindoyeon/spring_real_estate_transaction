@@ -18,6 +18,8 @@
 		<result column="dongName" property="dongName" />
 		<result column="roadName" property="roadName" />
 		<result column="roadNamebonbun" property="roadNamebonbun" />
+		<result column="lng" property="lng" />
+		<result column="lat" property="lat" />
 	</resultMap>
 
 	<select id="list" resultMap="housedeal">
@@ -26,18 +28,15 @@
 		from housedeal order by no
 	</select>
 
-	<select id="listAll" parameterType="map" resultMap="housedeal">
+	<select id="getHouseDeal" parameterType="string" resultMap="housedeal">
 		select hd.no,
 		hd.dealAmount, hd.dealYear, hd.dealMonth, hd.dealDay, hd.area
 		, hd.floor, hd.aptCode, hi.apartmentName as aptName, d.dongName
-		,hi.roadName, hi.roadNamebonbun
+		,hi.roadName, hi.roadNamebonbun, hi.lat, hi.lng
 		from housedeal as hd
 		join houseinfo as hi on hd.aptCode=hi.aptCode
 		join dongcode d on hi.dongCode = d.dongCode
-		where hi.dongCode = #{dongCode}
-		and hi.apartmentName like concat('%', #{apartmentName}, '%')
-		and hd.dealYear = '2022'
-		order by d.dongName, hi.apartmentName
+		where hd.aptCode = #{aptCode}
 	</select>
 
 	<select id="listByKeyword" parameterType="string"

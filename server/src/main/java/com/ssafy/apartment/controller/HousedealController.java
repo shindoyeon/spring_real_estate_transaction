@@ -39,23 +39,23 @@ public class HousedealController {
 		logger.debug("ApartmentController ! mvaptapi  ");
 		return "/apartment/aptapi";
 	}
-
-	@GetMapping(value = "/search")
-	@ResponseBody
-	public ResponseEntity<?> search(@RequestParam Map<String, String> map, Model model) throws Exception {
-		logger.debug("ApartmentController ! search : {}", map);
-		try {
-			List<HouseDealDto> list = housedealService.listAll(map);
-			logger.debug("ApartmentController ! search : {}",list.size());
-			if (list != null && !list.isEmpty()) {
-				return new ResponseEntity<List<HouseDealDto>>(list, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-			}
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
+	
+//	@GetMapping(value = "/search")
+//	@ResponseBody
+//	public ResponseEntity<?> search(@RequestParam Map<String, String> map, Model model) throws Exception {
+//		logger.debug("ApartmentController ! search : {}", map);
+//		try {
+//			List<HouseDealDto> list = housedealService.listAll(map);
+//			logger.debug("ApartmentController ! search : {}",list.size());
+//			if (list != null && !list.isEmpty()) {
+//				return new ResponseEntity<List<HouseDealDto>>(list, HttpStatus.OK);
+//			} else {
+//				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//			}
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 	
 	@GetMapping(value= "/list/keyword/{keyword}")
 	@ResponseBody
@@ -74,5 +74,24 @@ public class HousedealController {
 	public ResponseEntity<List<HouseInfoDto>> aptListBydong(@PathVariable("dong") String dong) throws Exception {
 		logger.debug("aptListBydong - 호출");
 		return new ResponseEntity<List<HouseInfoDto>>(housedealService.listByKeyword(dong), HttpStatus.OK);
+	}
+	
+	// 매물 실거래가 조회
+	@GetMapping("/dealList/{houseNo}")
+	public ResponseEntity<?> getHouseDeal(@PathVariable("houseNo") String houseNo) {
+		logger.debug("ApartmentController ! getHouseDeal : {}", houseNo);
+		List<HouseDealDto> list;
+		
+		try {
+			list = housedealService.getHouseDeal(houseNo);
+			if (list != null && !list.isEmpty()) {
+				return new ResponseEntity<>(list, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(list, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+		
 	}
 }

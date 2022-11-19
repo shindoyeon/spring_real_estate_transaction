@@ -10,10 +10,10 @@
 import { mapState, mapActions, mapMutations } from "vuex";
 import DealView from "@/components/map/DealView.vue";
 import SearchView from "@/components/map/SearchView.vue";
-import { apiInstance } from "@/api/index.js";
+// import { apiInstance } from "@/api/index.js";
 
 const storeName = "dealViewStore";
-const http = apiInstance();
+// const http = apiInstance();
 
 export default {
   components: { DealView, SearchView },
@@ -36,6 +36,7 @@ export default {
       "gu",
       "dong",
       "houseList",
+      "houseDealList",
       "fromMainKeyword",
       "curIndex",
       "listVisible",
@@ -45,6 +46,7 @@ export default {
     houseList: function () {
       console.log("houseLIst change");
       this.removeMarkers();
+      this.listVisible = false;
       if (this.houseList.length) {
         this.addMarkers(this.houseList);
         console.log(this.houseList);
@@ -73,7 +75,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(storeName, ["getHouseDeal"]),
+    ...mapActions(storeName, ["getHouseDealList"]),
     ...mapMutations(storeName, ["SET_CURINDEX", "SET_LISTVISIBLE"]),
     initMap() {
       console.log("initMap");
@@ -109,7 +111,7 @@ export default {
         this.addMarkerByOne(markerPosition, index);
         bounds.extend(markerPosition);
       });
-      // this.addInfoWindow();
+      this.addInfoWindow();
       this.map.setBounds(bounds);
     },
     addMarkerByOne(markerPosition, index) {
@@ -124,26 +126,58 @@ export default {
       this.markers.push(marker);
       marker.setMap(this.map);
     },
+    addInfoWindow() {
+      console.log("addiw");
+      this.markers.forEach((marker, index) => {
+        let item = this.houseList[index];
+        let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.apartmentName}</div>`;
+
+        let infoWindow = new kakao.maps.InfoWindow({
+          content: infoContents,
+        });
+        // infoWindow.open(this.map, marker);
+        // this.infoWindows.push(infoWindow);
+        let $this = this;
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          // console.log(1)
+          // console.log(this.curInfoWindow)
+          // if ($this.curInfoWindow) {
+          //   if ($this.curInfoWindow.name != item.aptName) {
+          //     $this.curInfoWindow.close();
+          //     infoWindow.open(this.map, marker);
+          //   }
+          // } else {
+          //   console.log('ttt')
+          infoWindow.open($this.map, marker);
+          // $this.curInfoWindow = infoWindow;
+        });
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          infoWindow.close();
+        });
+      });
+    },
     showHouseDetail(index) {
+      document.getElementById("showList").scrollTop = 0;
       this.SET_CURINDEX(index);
 
-      // const houseNo = this.houseList[index].houseNo;
-      //this.getHouseDeal(houseNo);
+      const houseNo = this.houseList[index].aptCode;
+      console.log(houseNo);
+      this.getHouseDealList(houseNo);
       // this.getOngoingList(houseNo);
       // this.getHouseReview(houseNo);
       if (!this.listVisible) this.SET_LISTVISIBLE(true);
     },
-    getHouseDeal(houseNo) {
-      http
-        .get(`/house/deal/${houseNo}`)
-        .then((response) => {
-          this.dealInfo = response.data.houseDealDto;
-        })
-        .catch((error) => {
-          // this.$swal("서버에 문제가 발생하였습니다.", { icon: "error" });
-          alert("하나의 정보를 가져오는데 오류 발생:" + error);
-        });
-    },
+    // getHouseDeal(houseNo) {
+    //   http
+    //     .get(`/house/deal/${houseNo}`)
+    //     .then((response) => {
+    //       this.dealInfo = response.data.houseDealDto;
+    //     })
+    //     .catch((error) => {
+    //       // this.$swal("서버에 문제가 발생하였습니다.", { icon: "error" });
+    //       alert("하나의 정보를 가져오는데 오류 발생:" + error);
+    //     });
+    // },
   },
 };
 </script>

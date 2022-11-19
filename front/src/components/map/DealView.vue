@@ -103,11 +103,15 @@
             </tr>
           </thead>
           <tbody class="px-2">
-            <tr v-for="index in 5" class="border-bottom" :key="index">
-              <td class="ps-3 py-2">2022</td>
-              <td>15억</td>
-              <td>강남</td>
-              <td>3층</td>
+            <tr
+              v-for="(item, index) in houseDealList"
+              :key="index"
+              class="border-bottom"
+            >
+              <td class="ps-3 py-2">{{ item.dealYear }}</td>
+              <td>{{ item.dealAmount }}</td>
+              <td>{{ item.area }}</td>
+              <td>{{ item.floor }}</td>
             </tr>
           </tbody>
         </table>
@@ -165,6 +169,7 @@ export default {
       "gu",
       "dong",
       "houseList",
+      "houseDealList",
       "fromMainKeyword",
       "curIndex",
       "listVisible",

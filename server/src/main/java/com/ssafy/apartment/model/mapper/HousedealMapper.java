@@ -12,6 +12,6 @@ import com.ssafy.apartment.model.HouseInfoDto;
 @Mapper
 public interface HousedealMapper {
 	List<HouseDealDto> list() throws SQLException;
-    List<HouseDealDto> listAll(Map<String, String> map) throws SQLException;
     List<HouseInfoDto> listByKeyword(String keyword) throws SQLException;
+    List<HouseDealDto> getHouseDeal(String houseNo) throws SQLException;
 }
