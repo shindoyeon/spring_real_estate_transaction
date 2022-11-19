@@ -1,10 +1,12 @@
 package com.ssafy.member.model;
 
-import com.ssafy.apartment.model.HouseDealDto;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDto {
 	private String userId;
 	private String userName;
@@ -13,16 +15,8 @@ public class MemberDto {
 	private String userPhone;
 	private String userRole;
 	private String delflag;
+	private String token;
 	
-	public MemberDto(String userId, String userName, String userPassword, String userEmail, String userPhone,
-			String userRole, String delflag) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.userPassword = userPassword;
-		this.userEmail = userEmail;
-		this.userPhone = userPhone;
-		this.userRole = userRole;
-		this.delflag = delflag;
-	}	
+	
+	
 }
