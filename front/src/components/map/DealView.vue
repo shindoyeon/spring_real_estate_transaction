@@ -10,11 +10,11 @@
     </div>
     <div
       v-else
-      class="text-center text-primary py-2 bg-warning"
+      class="text-center text-primary py-2 bg-primary"
       style="cursor: pointer"
     ></div>
     <!-- 아파트 정보 요약 -->
-    <div class="bg-white mb-">
+    <div class="bg-white mb-2">
       <div
         class="p-3 border-bottom d-flex justify-content-between align-items-center"
       >
@@ -29,16 +29,16 @@
         /> -->
         <b-icon icon="house" font-scale="2" class=""></b-icon>
         <!-- contents -->
-        <div class="px-3">
-          <div class="border-bottom d-flex py-2">
-            <div class="text-secondary w-25">주소</div>
-            {{ houseList[curIndex].dong }}
-            {{ houseList[curIndex].jibun }}
-          </div>
-          <div class="d-flex py-2">
-            <div class="text-secondary w-25">건축년도</div>
-            <div>{{ houseList[curIndex].buildYear }}</div>
-          </div>
+      </div>
+      <div class="px-3">
+        <div class="border-bottom d-flex py-2">
+          <div class="text-secondary w-25">주소</div>
+          {{ houseList[curIndex].dong }}
+          {{ houseList[curIndex].jibun }}
+        </div>
+        <div class="d-flex py-2">
+          <div class="text-secondary w-25">건축년도</div>
+          <div>{{ houseList[curIndex].buildYear }}</div>
         </div>
       </div>
     </div>
