@@ -27,7 +27,18 @@
           :enabled="houseList[curIndex].bookmark"
           @changeHeartBtn="onBookmarkHouse"
         /> -->
-        <b-icon icon="house" font-scale="2" class=""></b-icon>
+        <button
+          @click="addBookmark"
+          type="button"
+          style="border: 0; outline: 0; background-color: white"
+        >
+          <b-icon
+            icon="heart-fill"
+            font-scale="2"
+            class="rounded-circle bg-danger p-2"
+            variant="light"
+          ></b-icon>
+        </button>
         <!-- contents -->
       </div>
       <div class="px-3">
@@ -174,6 +185,7 @@ export default {
       "curIndex",
       "listVisible",
     ]),
+    ...mapState("memberStore", ["isLogin", "userInfo"]),
   },
   methods: {
     ...mapActions(storeName, ["getHouseListByKeyword"]),
@@ -184,6 +196,12 @@ export default {
         console.log("inputKeyword : " + this.inputKeyword);
         this.eventFrom = "keyword";
         this.getHouseListByKeyword(this.inputKeyword);
+      }
+    },
+    addBookmark() {
+      if (!this.isLogin) {
+        alert("로그인이 필요한 서비스입니다.");
+      } else {
       }
     },
   },
