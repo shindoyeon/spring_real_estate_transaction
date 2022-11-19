@@ -133,7 +133,7 @@ const dealViewStore = {
       HouseDealList(
         houseno,
         ({ data }) => {
-          console.log("housedeal:" + data);
+          // console.log("housedeal:" + data);
           commit("SET_HOUSE_DEAL_LIST", data);
         },
         (error) => {

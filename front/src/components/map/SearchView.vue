@@ -103,7 +103,6 @@ export default {
       map: "",
       searchType: "D",
       inputKeyword: "",
-      listVisible: false,
       markers: [],
       eventFrom: "",
       // curInfoWindow: {},
@@ -121,7 +120,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(dealViewStore, ["sidos", "guguns", "dongs", "houseList"]),
+    ...mapState(dealViewStore, [
+      "sidos",
+      "guguns",
+      "dongs",
+      "houseList",
+      "listVisible",
+    ]),
   },
   created() {
     this.initSearchByDongBox();
@@ -136,12 +141,12 @@ export default {
   },
   watch: {
     searchType: function (val) {
-      this.listVisible = false;
+      this.SET_LISTVISIBLE(false);
       if (val === "D") {
         console.log("watch D");
         this.initSearchByDongBox();
       } else if (val === "K") {
-        if (this.listVisible) this.listVisible = false;
+        if (this.listVisible) this.SET_LISTVISIBLE(false);
         console.log("watch K");
       }
     },
@@ -159,6 +164,7 @@ export default {
       "CLEAR_GUGUN_LIST",
       "CLEAR_DONG_LIST",
       "CLEAR_HOUSE_LIST",
+      "SET_LISTVISIBLE",
     ]),
     gugunList() {
       // console.log(this.sidoCode);

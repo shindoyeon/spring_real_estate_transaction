@@ -46,7 +46,7 @@ export default {
     houseList: function () {
       console.log("houseLIst change");
       this.removeMarkers();
-      this.listVisible = false;
+      this.SET_LISTVISIBLE(false);
       if (this.houseList.length) {
         this.addMarkers(this.houseList);
         console.log(this.houseList);
@@ -157,7 +157,9 @@ export default {
       });
     },
     showHouseDetail(index) {
-      document.getElementById("showList").scrollTop = 0;
+      if (document.getElementById("showList")) {
+        document.getElementById("showList").scrollTop = 0;
+      }
       this.SET_CURINDEX(index);
 
       const houseNo = this.houseList[index].aptCode;
