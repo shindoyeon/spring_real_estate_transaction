@@ -91,7 +91,7 @@ export default {
       options: [
         { value: "null", text: "검색조건" },
         { value: "subject", text: "제목" },
-        { value: "userid", text: "작성자" },
+        { value: "userId", text: "작성자" },
       ],
     };
   },

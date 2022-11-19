@@ -53,11 +53,11 @@ export default {
     return {
       article: {
         articleno: 0,
-        userid: "ssafy",
+        userId: "ssafy",
         subject: "",
         content: "",
       },
-      isUserid: false,
+      isuserId: false,
     };
   },
   created() {},

@@ -10,11 +10,11 @@
             <input
               type="text"
               class="form-control"
-              id="userid"
+              id="userId"
               name="userId"
               placeholder="ID"
             />
-            <label for="userid">ID</label>
+            <label for="userId">ID</label>
           </div>
           <div id="idcheck-result"></div>
           <div class="form-floating mb-1">
@@ -31,11 +31,11 @@
             <input
               type="password"
               class="form-control"
-              id="userpwd"
-              name="userPwd"
+              id="userpassword"
+              name="userPassword"
               placeholder="Password"
             />
-            <label for="userpwd">Password</label>
+            <label for="userpassword">Password</label>
           </div>
           <div class="form-floating mb-1">
             <input

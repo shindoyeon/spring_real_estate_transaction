@@ -13,20 +13,20 @@
             <b-alert show variant="danger" v-if="isLoginError"
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
-            <b-form-group label="아이디:" label-for="userid">
+            <b-form-group label="아이디:" label-for="userId">
               <b-form-input
-                id="userid"
-                v-model="user.userid"
+                id="userId"
+                v-model="user.userId"
                 required
                 placeholder="아이디 입력...."
                 @keyup.enter="confirm"
               ></b-form-input>
             </b-form-group>
-            <b-form-group label="비밀번호:" label-for="userpwd">
+            <b-form-group label="비밀번호:" label-for="userPassword">
               <b-form-input
                 type="password"
-                id="userpwd"
-                v-model="user.userpwd"
+                id="userPassword"
+                v-model="user.userPassword"
                 required
                 placeholder="비밀번호 입력...."
                 @keyup.enter="confirm"
@@ -65,8 +65,8 @@ export default {
     return {
       // isLoginError: false,
       user: {
-        userid: null,
-        userpwd: null,
+        userId: null,
+        userPassword: null,
       },
     };
   },
