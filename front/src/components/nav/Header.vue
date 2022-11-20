@@ -23,7 +23,7 @@
             ></b-nav-item
           >
           <b-nav-item href="#" class="nav-item"
-            ><router-link :to="{ name: 'list' }" class="nav-link"
+            ><router-link :to="{ name: 'chart' }" class="nav-link"
               ><b-icon icon="building" font-scale="2"></b-icon>
               아파트매매정보</router-link
             ></b-nav-item
@@ -31,7 +31,7 @@
         </b-navbar-nav>
 
         <!-- after login -->
-        <b-navbar-nav class="ml-auto float-right" v-if="userInfo">
+        <b-navbar-nav class="ml-auto float-right" v-if="isLogin">
           <b-nav-item class="align-self-center">
             <b-avatar
               variant="primary"
@@ -73,7 +73,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 const memberStore = "memberStore";
 
 export default {
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     ...mapActions(memberStore, ["userLogout"]),
-    // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
+    ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
       // this.SET_IS_LOGIN(false);
       // this.SET_USER_INFO(null);
@@ -100,7 +100,7 @@ export default {
       this.userLogout(this.userInfo.userId);
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
-      if (this.$route.path != "/") this.$router.push({ name: "main" });
+      if (this.$route.path != "/") this.$router.push({ name: "home" });
     },
   },
 };
