@@ -19,24 +19,22 @@
         class="p-3 border-bottom d-flex justify-content-between align-items-center"
       >
         <h4 class="m-0">{{ houseList[curIndex].apartmentName }}</h4>
-
-        <!-- 북마크 하트버튼 -->
-        <!-- <HeartBtn
-          v-if="temp"
-          class="px-1"
-          :enabled="houseList[curIndex].bookmark"
-          @changeHeartBtn="onBookmarkHouse"
-        /> -->
         <button
-          @click="addBookmark"
+          @click="setBookmark"
           type="button"
           style="border: 0; outline: 0; background-color: white"
         >
           <b-icon
             icon="heart-fill"
             font-scale="2"
-            class="rounded-circle bg-danger p-2"
-            variant="light"
+            variant="danger"
+            v-if="isBookmark"
+          ></b-icon>
+          <b-icon
+            icon="heart-fill"
+            font-scale="2"
+            variant="secondary"
+            v-else
           ></b-icon>
         </button>
         <!-- contents -->
@@ -129,7 +127,7 @@
       </div>
     </div>
     <!-- 매물정보 -->
-    <div class="bg-white mb-2">
+    <!-- <div class="bg-white mb-2">
       <div class="border-bottom"><h5 class="p-3 m-0">매물 정보</h5></div>
       <div>
         <table class="w-100">
@@ -153,13 +151,15 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
+// import { apiInstance } from "@/api/index.js";
 
+// const api = apiInstance();
 const storeName = "dealViewStore";
 
 export default {
@@ -173,6 +173,7 @@ export default {
       dealchk: false,
       inputKeyword: "",
       eventFrom: "",
+      bookmark: "",
     };
   },
   computed: {
@@ -186,9 +187,17 @@ export default {
       "listVisible",
     ]),
     ...mapState("memberStore", ["isLogin", "userInfo"]),
+    ...mapState("bookmarkStore", ["bookmarkList", "isBookmark"]),
   },
+
   methods: {
     ...mapActions(storeName, ["getHouseListByKeyword"]),
+    ...mapActions("bookmarkStore", [
+      "insertBookmark",
+      "getBookmarkList",
+      "deleteBookmark",
+    ]),
+    ...mapMutations("bookmarkStore", ["SET_BOOKMARK_LIST", "SET_ISBOOKMARK"]),
     onKeywordSearch() {
       if (this.inputKeyword == "") {
         this.$swal("키워드를 입력하세요.", { icon: "error" });
@@ -198,10 +207,22 @@ export default {
         this.getHouseListByKeyword(this.inputKeyword);
       }
     },
-    addBookmark() {
+    setBookmark() {
+      let param = {
+        aptCode: this.houseList[this.curIndex].aptCode,
+        userId: this.userInfo.userId,
+      };
       if (!this.isLogin) {
         alert("로그인이 필요한 서비스입니다.");
       } else {
+        if (!this.isBookmark) {
+          console.log(param);
+          this.insertBookmark(param);
+          console.log("bookmarkList:" + this.bookmarkList);
+        } else {
+          this.deleteBookmark(param);
+          console.log("북마크 삭제 완료");
+        }
       }
     },
   },

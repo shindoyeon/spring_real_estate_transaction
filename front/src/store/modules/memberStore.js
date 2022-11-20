@@ -7,7 +7,7 @@ const memberStore = {
   state: {
     isLogin: false,
     isLoginError: false,
-    userInfo: null,
+    userInfo: {},
     isValidToken: false,
   },
   getters: {

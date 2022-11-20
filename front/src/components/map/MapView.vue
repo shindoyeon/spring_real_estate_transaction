@@ -41,6 +41,7 @@ export default {
       "curIndex",
       "listVisible",
     ]),
+    ...mapState("bookmarkStore", ["bookmarkList"]),
   },
   watch: {
     houseList: function () {
@@ -77,6 +78,7 @@ export default {
   methods: {
     ...mapActions(storeName, ["getHouseDealList"]),
     ...mapMutations(storeName, ["SET_CURINDEX", "SET_LISTVISIBLE"]),
+    ...mapMutations("bookmarkStore", ["SET_ISBOOKMARK"]),
     initMap() {
       console.log("initMap");
       const mapContainer = document.getElementById("map");
@@ -168,7 +170,19 @@ export default {
       // this.getOngoingList(houseNo);
       // this.getHouseReview(houseNo);
       if (!this.listVisible) this.SET_LISTVISIBLE(true);
+
+      let bookchk = false;
+      this.bookmarkList.forEach((bookmark) => {
+        let code = this.houseList[this.curIndex].aptCode;
+        console.log("code : " + code);
+        if (code == bookmark.aptCode) {
+          console.log("찾았음");
+          bookchk = true;
+        }
+      });
+      this.SET_ISBOOKMARK(bookchk);
     },
+
     // getHouseDeal(houseNo) {
     //   http
     //     .get(`/house/deal/${houseNo}`)

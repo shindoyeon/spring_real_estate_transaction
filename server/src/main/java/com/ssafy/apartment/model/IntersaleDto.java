@@ -6,13 +6,13 @@ import lombok.Data;
 public class IntersaleDto {
 	private int saleNo;
 	private String userId;
-	private String aptCode;
+	private long aptCode;
 	
-	public IntersaleDto(int saleNo, String userId, String aptCode) {
-		super();
-		this.saleNo = saleNo;
-		this.userId = userId;
-		this.aptCode = aptCode;
-	}
+//	public IntersaleDto(int saleNo, String userId, String aptCode) {
+//		super();
+//		this.saleNo = saleNo;
+//		this.userId = userId;
+//		this.aptCode = aptCode;
+//	}
 
 }

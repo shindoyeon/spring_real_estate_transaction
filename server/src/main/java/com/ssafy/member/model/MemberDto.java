@@ -17,6 +17,4 @@ public class MemberDto {
 	private String delflag;
 	private String token;
 	
-	
-	
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.apartment.model.mapper.BookmarkMapper">
+
+	<insert id="addBookmark" parameterType="string">
+		insert into intersale(aptCode, userId )
+		values(#{aptCode},#{userId})
+		<selectKey resultType="int" keyProperty="saleNo" order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+	
+	<insert id="deleteBookmark" parameterType="string">
+		delete from intersale
+		where aptCode = #{aptCode} and userId = #{userId}
+	</insert>
+	
+	
+	<select id="bookmarkList" parameterType="string" resultType="IntersaleDto">
+		select aptCode, userId
+		from intersale
+		where userId = #{userId}
+	</select>
+	
+</mapper>
