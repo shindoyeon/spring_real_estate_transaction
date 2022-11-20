@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
 
 import com.ssafy.member.model.MemberDto;
 
@@ -14,6 +13,8 @@ public interface MemberMapper {
 	int idCheck(String userId) throws SQLException; // 아이디 중복검사
 	void joinMember(MemberDto memberDto) throws SQLException; // 회원가입
 	MemberDto loginMember(MemberDto memberDto) throws SQLException; // 로그인
+	MemberDto findPassword(String userId) throws SQLException; // 아이디 중복검사
+	int updatePassword(MemberDto memberDto) throws SQLException; // 아이디 중복검사
 	MemberDto getMember(String userId) throws SQLException;
 	void deleteMember(String userId) throws SQLException;
 	void updateMember(MemberDto memberDto) throws SQLException;

@@ -10,6 +10,7 @@ public interface MemberService {
 	int idCheck(String userId) throws Exception; // 아이디 중복검사
 	void joinMember(MemberDto memberDto) throws Exception; // 회원가입
 	MemberDto loginMember(MemberDto memberDto) throws Exception; // 로그인
+	boolean findPassword(MemberDto memberDto) throws Exception; 
 	MemberDto getMember(String userId) throws Exception;
 	void deleteMember(String userId) throws Exception;
 	void updateMember(MemberDto memberDto) throws Exception;

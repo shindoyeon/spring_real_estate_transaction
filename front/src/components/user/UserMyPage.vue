@@ -1,8 +1,8 @@
 <template>
-  <b-container class="mt-4" v-if="userInfo">
+  <b-container class="container my-5" v-if="userInfo">
     <b-row>
       <b-col>
-        <b-alert variant="secondary" show><h3>내정보</h3></b-alert>
+        <b-alert variant="secondary" show><h3>마이 페이지</h3></b-alert>
       </b-col>
     </b-row>
     <b-row>

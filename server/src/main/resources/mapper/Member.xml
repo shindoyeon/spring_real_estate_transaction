@@ -22,8 +22,8 @@
 	</select>
 
 	<insert id="joinMember" parameterType="memberDto">
-		insert into members (userId, userName, userPassword, userEmail, userPhone, userRole)
-		values (#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{userPhone}, #{userRole})
+		insert into members (userId, userName, userPassword, userEmail, userPhone)
+		values (#{userId}, #{userName}, #{userPassword}, #{userEmail}, #{userPhone})
 	</insert>
 	
 	<select id="listMember" resultMap="member">
@@ -38,12 +38,23 @@
 		where userId = #{userId}
 	</select>
 	
-	<select id="loginMember" parameterType="memberDto" resultMap="member ">
+	<select id="loginMember" parameterType="memberDto" resultMap="member">
 		select userId, userName, userEmail, userRole
 		  from members
 		where userId = #{userId} and userPassword = #{userPassword}
 		  and delflag=0
 	</select>
+	
+	<select id="findPassword" parameterType="string" resultMap="member">
+		select userName, userId, userEmail
+		from members 
+		where userId = #{userId}
+	</select>
+	
+	<update id="updatePassword" parameterType="memberDto">
+		update members set userPassword = #{userPassword}
+		where userId = #{userId}
+	</update>
 	
 	<select id="getRefreshToken" parameterType="string" resultType="string">
 		select token

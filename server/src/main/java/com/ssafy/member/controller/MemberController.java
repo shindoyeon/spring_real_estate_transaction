@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -51,30 +52,28 @@ public class MemberController {
 		this.memberService = memberService;
 	}
 
-	@GetMapping("/join")
-	public String join() {
-		return "user/join";
-	}
-
 	@GetMapping("/idcheck/{userId}")
-	@ResponseBody
-	public String idCheck(@PathVariable("userId") String userId) throws Exception {
+	public ResponseEntity<String> idCheck(@PathVariable("userId") String userId) throws Exception {
 		logger.debug("idCheck userId : {}", userId);
 		int cnt = memberService.idCheck(userId);
-		return cnt + "";
+		
+		return new ResponseEntity<String>(cnt+"", HttpStatus.OK);
 	}
 
 	@PostMapping("/join")
-	public String join(MemberDto memberDto, Model model) {
+	public ResponseEntity<?> join(@RequestBody MemberDto memberDto) {
 		logger.debug("memberDto info : {}", memberDto);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		try {
 			memberService.joinMember(memberDto);
-			return "redirect:/user/login";
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("msg", "회원 가입 중 문제 발생!!!");
-			return "error/error";
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
+		} catch(Exception e){
+			resultMap.put("message", FAIL);
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
@@ -91,6 +90,7 @@ public class MemberController {
 //				a토큰, r토큰
 				String accessToken = jwtService.createAccessToken("userId", loginUser.getUserId());// key, data
 				String refreshToken = jwtService.createRefreshToken("userId", loginUser.getUserId());// key, data
+				System.out.println("login: "+memberDto.getUserId()+" "+refreshToken);
 				memberService.saveRefreshToken(memberDto.getUserId(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
 				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
@@ -105,6 +105,31 @@ public class MemberController {
 		} catch (Exception e) {
 			logger.error("로그인 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	@PutMapping("/password")
+	public ResponseEntity<Map<String, Object>> findPassword(@RequestBody MemberDto user) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		boolean result=false;
+		logger.info("findpassword {}", user);
+		try {
+			
+			result = memberService.findPassword(user);
+			System.out.println("controller result  " + result);
+			if (result) {
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			resultMap.put("message", FAIL);
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
