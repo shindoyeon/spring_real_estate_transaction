@@ -82,9 +82,12 @@ export default {
       this.chartData.datasets[0].data = [];
 
       this.houseDealList.forEach((element) => {
-        let thisDate = element.dealYear + element.dealMonth + element.dealDay;
+        // let thisDate = element.dealYear + element.dealMonth + element.dealDay;
+        let gDate = `${element.dealYear}-${
+          element.dealMonth >= 10 ? element.dealMonth : "0" + element.dealMonth
+        }-${element.dealDay >= 10 ? element.dealDay : "0" + element.dealDay}`;
         let thisDealAmount = element.dealAmount.replace(",", "") + "000";
-        this.chartData.labels.push(thisDate);
+        this.chartData.labels.push(gDate);
         this.chartData.datasets[0].data.push(thisDealAmount);
       });
       console.log(this.chartData.datasets[0].data);
@@ -98,7 +101,7 @@ export default {
         datasets: [
           {
             data: [],
-            label: "실거래가",
+            label: "실거래가(원)",
             borderColor: "#e04f4f",
           },
         ],

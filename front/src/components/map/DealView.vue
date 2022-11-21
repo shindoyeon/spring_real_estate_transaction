@@ -111,11 +111,24 @@
               <td>층수</td>
             </tr>
           </thead>
-          <tbody class="px-2">
+          <tbody class="px-2" v-if="houseDealList <= 10">
             <tr
               v-for="(item, index) in houseDealList"
               :key="index"
               class="border-bottom"
+            >
+              <td class="ps-3 py-2">{{ item.dealYear }}</td>
+              <td>{{ item.dealAmount }}</td>
+              <td>{{ item.area }}</td>
+              <td>{{ item.floor }}</td>
+            </tr>
+          </tbody>
+          <tbody class="px-2" v-else>
+            <tr
+              v-for="(item, index) in houseDealList"
+              :key="index"
+              class="border-bottom"
+              v-show="index >= houseDealList.length - 10"
             >
               <td class="ps-3 py-2">{{ item.dealYear }}</td>
               <td>{{ item.dealAmount }}</td>
