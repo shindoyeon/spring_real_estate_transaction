@@ -21,4 +21,8 @@ async function logout(userId, success, fail) {
   await api.get(`/user/logout/${userId}`).then(success).catch(fail);
 }
 
-export { login, findById, tokenRegeneration, logout };
+async function update(user, success, fail) {
+  await api.put(`/user/update`, user).then(success).catch(fail);
+}
+
+export { login, findById, tokenRegeneration, logout, update };

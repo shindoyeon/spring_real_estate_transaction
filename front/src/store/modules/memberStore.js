@@ -1,6 +1,12 @@
 import jwtDecode from "jwt-decode";
 import router from "@/router";
-import { login, findById, tokenRegeneration, logout } from "@/api/member";
+import {
+  login,
+  findById,
+  tokenRegeneration,
+  logout,
+  update,
+} from "@/api/member";
 
 const memberStore = {
   namespaced: true,
@@ -29,7 +35,6 @@ const memberStore = {
       state.isValidToken = isValidToken;
     },
     SET_USER_INFO: (state, userInfo) => {
-      state.isLogin = true;
       state.userInfo = userInfo;
     },
   },
@@ -55,6 +60,17 @@ const memberStore = {
           }
         },
         (error) => {
+          console.log(error);
+        }
+      );
+    },
+    async userUpdate({ commit }, user) {
+      await update(
+        user,
+        ({ data }) => {
+          commit("SET_USER_INFO", data);
+        },
+        async (error) => {
           console.log(error);
         }
       );
@@ -131,6 +147,7 @@ const memberStore = {
         userId,
         ({ data }) => {
           if (data.message === "success") {
+            console.log("로그아웃 액션 들어옴!");
             commit("SET_IS_LOGIN", false);
             commit("SET_USER_INFO", null);
             commit("SET_IS_VALID_TOKEN", false);

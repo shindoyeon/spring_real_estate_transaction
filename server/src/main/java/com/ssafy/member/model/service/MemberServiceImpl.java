@@ -71,8 +71,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void updateMember(MemberDto memberDto) throws Exception {
+	public MemberDto updateMember(MemberDto memberDto) throws Exception {
 		memberMapper.updateMember(memberDto);
+		return memberMapper.getMember(memberDto.getUserId());
 	}
 
 	@Override

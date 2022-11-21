@@ -1,5 +1,5 @@
 <template>
-  <b-container class="container my-5" v-if="userInfo">
+  <b-container class="container my-5" v-if="userInfo != null">
     <b-row>
       <b-col>
         <b-alert variant="secondary" show><h3>마이 페이지</h3></b-alert>
@@ -26,29 +26,29 @@
               <b-col cols="2"></b-col>
               <b-col cols="2" align-self="end">이름</b-col
               ><b-col cols="4" align-self="start">{{
-                userInfo.username
+                userInfo.userName
               }}</b-col>
               <b-col cols="2"></b-col>
             </b-row>
             <b-row>
               <b-col cols="2"></b-col>
               <b-col cols="2" align-self="end">이메일</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.email }}</b-col>
-              <b-col cols="2"></b-col>
-            </b-row>
-            <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">가입일</b-col
               ><b-col cols="4" align-self="start">{{
-                userInfo.joindate
+                userInfo.userEmail
               }}</b-col>
               <b-col cols="2"></b-col>
             </b-row>
           </b-container>
           <hr class="my-4" />
 
-          <b-button variant="primary" href="#" class="mr-1">정보수정</b-button>
-          <b-button variant="danger" href="#">회원탈퇴</b-button>
+          <router-link :to="{ name: 'modify' }" class="link"
+            ><b-button variant="primary" class="mr-1"
+              >정보수정</b-button
+            ></router-link
+          >
+          <router-link :to="{ name: 'join' }" class="link"
+            ><b-button variant="danger">회원탈퇴</b-button></router-link
+          >
         </b-jumbotron>
       </b-col>
       <b-col></b-col>

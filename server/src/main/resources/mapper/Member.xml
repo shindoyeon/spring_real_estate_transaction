@@ -33,7 +33,7 @@
 	</select>
 	
 	<select id="getMember" parameterType="string" resultMap="member">
-		select userId, userName, userPassword, userEmail, userPhone, userRole, delflag
+		select userId, userName, userPassword, userEmail, userPhone, userRole, delflag, token
 		from members
 		where userId = #{userId}
 	</select>
@@ -78,7 +78,7 @@
 		update members
 		<trim prefix="set" suffixOverrides=",">
 			<if test="userName != null">userName = #{userName},</if>
-			<if test="userPwd != null">userPassword = #{userPwd},</if>
+			<if test="userPassword != null">userPassword = #{userPassword},</if>
 			<if test="userEmail != null">userEmail= #{userEmail},</if>
 			<if test="userPhone != null">userPhone = #{userPhone}</if>
 		</trim>

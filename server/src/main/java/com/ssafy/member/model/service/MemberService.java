@@ -13,7 +13,7 @@ public interface MemberService {
 	boolean findPassword(MemberDto memberDto) throws Exception; 
 	MemberDto getMember(String userId) throws Exception;
 	void deleteMember(String userId) throws Exception;
-	void updateMember(MemberDto memberDto) throws Exception;
+	MemberDto updateMember(MemberDto memberDto) throws Exception;
 	List<MemberDto> listMember() throws Exception;	
 	void saveRefreshToken(String userid, String refreshToken) throws Exception;
 	Object getRefreshToken(String userid) throws Exception;

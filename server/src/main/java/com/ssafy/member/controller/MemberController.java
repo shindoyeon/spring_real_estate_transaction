@@ -59,7 +59,8 @@ public class MemberController {
 		
 		return new ResponseEntity<String>(cnt+"", HttpStatus.OK);
 	}
-
+	
+	@ApiOperation(value = "회원가입", notes = "회원가입과 그 결과를 반환한다.")
 	@PostMapping("/join")
 	public ResponseEntity<?> join(@RequestBody MemberDto memberDto) {
 		logger.debug("memberDto info : {}", memberDto);
@@ -75,6 +76,8 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	
 
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
@@ -230,17 +233,17 @@ public class MemberController {
 		}
 	}
 	
-	@PostMapping("/update")
-	public String update(@ModelAttribute MemberDto member, Model model, HttpSession session) {		
+	@ApiOperation(value = "회원수정", notes = "회원수정과 그 결과를 반환한다.")
+	@PutMapping("/update")
+	public ResponseEntity<?> update(@RequestBody MemberDto member) {		
 		try {
 			logger.debug("update : {}", member);
-			memberService.updateMember(member);
+			MemberDto memberDto= memberService.updateMember(member);
 			logger.debug("memberDto info : {}", member);
-			return "redirect:/user/info";
+			return new ResponseEntity<MemberDto> (memberDto,HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("msg", "회원 정보 수정 중 문제 발생!!!");
-			return "error/error";
+			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
