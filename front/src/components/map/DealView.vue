@@ -52,7 +52,7 @@
       </div>
     </div>
     <!-- 거주민 리뷰 -->
-    <div class="bg-white mb-2">
+    <!-- <div class="bg-white mb-2">
       <div class="d-flex justify-content-between align-items-center">
         <h5 class="p-3 m-0">거주민 리뷰</h5>
 
@@ -61,7 +61,6 @@
       <div v-if="reviewchk" class="p-3 border-top">
         <div>등록된 리뷰가 없습니다.</div>
       </div>
-      <!-- 등록 리뷰 있을 때 v-for 속성 추가-->
       <div v-else>
         <div class="border-top border-bottom d-flex align-items-center p-2">
           <div class="text-secondary ps-2 pe-3">
@@ -97,11 +96,12 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 실거래가 -->
     <div class="bg-white mb-2">
       <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
       <div>
+        <line-chart />
         <table class="w-100">
           <thead class="bg-secondary text-white">
             <tr>
@@ -156,6 +156,7 @@
 </template>
 
 <script>
+import LineChart from "@/components/chart/LineChart.vue";
 import { mapActions, mapMutations, mapState } from "vuex";
 // import { apiInstance } from "@/api/index.js";
 
@@ -164,7 +165,9 @@ const storeName = "dealViewStore";
 
 export default {
   name: "DealView",
-  comments: {},
+  components: {
+    LineChart,
+  },
   data() {
     return {
       salechk: false,

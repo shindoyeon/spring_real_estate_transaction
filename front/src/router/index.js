@@ -11,7 +11,6 @@ import UserLogin from "@/components/user/UserLogin.vue";
 import UserMyPage from "@/components/user/UserMyPage.vue";
 import UserFindPwd from "@/components/user/UserFindPwd.vue";
 import UserRegister from "@/components/user/UserRegister.vue";
-import LineChart from "@/components/chart/LineChart.vue";
 
 import store from "@/store";
 
@@ -70,11 +69,6 @@ const routes = [
         component: UserFindPwd,
       },
     ],
-  },
-  {
-    path: "/chart",
-    name: "chart",
-    component: LineChart,
   },
   {
     path: "/board",
