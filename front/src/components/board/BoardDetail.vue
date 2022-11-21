@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     moveModify(no) {
-      this.$router.push(`/board/modify/${no}`);
+      this.$router.push(`/board/boardmodify/${no}`);
     },
     deleteArticle(no) {
       api.delete(`/board/delete/${no}`).then(({ data }) => {

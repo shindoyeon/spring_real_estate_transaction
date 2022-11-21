@@ -41,7 +41,7 @@
           </b-container>
           <hr class="my-4" />
 
-          <router-link :to="{ name: 'modify' }" class="link"
+          <router-link :to="{ name: 'usermodify' }" class="link"
             ><b-button variant="primary" class="mr-1"
               >정보수정</b-button
             ></router-link

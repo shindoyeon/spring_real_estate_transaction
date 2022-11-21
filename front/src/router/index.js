@@ -70,8 +70,8 @@ const routes = [
         component: UserFindPwd,
       },
       {
-        path: "modify",
-        name: "modify",
+        path: "usermodify",
+        name: "usermodify",
         beforeEnter: onlyAuthUser,
         component: UserModify,
       },
@@ -99,8 +99,8 @@ const routes = [
         component: BoardWrite,
       },
       {
-        path: "modify/:no",
-        name: "modify",
+        path: "boardmodify/:no",
+        name: "boardmodify",
         component: BoardModify,
       },
     ],
