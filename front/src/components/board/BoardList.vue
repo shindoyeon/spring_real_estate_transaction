@@ -12,6 +12,7 @@
           <div class="row align-self-center mb-2">
             <div class="col-md-2 text-start">
               <b-button
+                v-if="userInfo.userRole == 1"
                 variant="btn btn-outline-primary btn-sm"
                 @click="moveWrite()"
                 >글쓰기</b-button
@@ -82,6 +83,9 @@
 import { apiInstance } from "@/api/index.js";
 import ArticleItem from "@/components/board/ArticleItem.vue";
 import PageLink from "@/components/board/PageLink.vue";
+import { mapState, mapGetters } from "vuex";
+const memberStore = "memberStore";
+
 const api = apiInstance();
 export default {
   name: "BoardList",
@@ -108,6 +112,10 @@ export default {
   },
   created() {
     this.initComponent();
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
+    ...mapGetters(["checkUserInfo"]),
   },
   watch: {
     "$route.query": function () {

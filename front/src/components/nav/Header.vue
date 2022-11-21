@@ -22,10 +22,13 @@
               공지사항</router-link
             ></b-nav-item
           >
-          <b-nav-item href="#" class="nav-item"
-            ><router-link :to="{ name: 'list' }" class="nav-link"
-              ><b-icon icon="building" font-scale="2"></b-icon>
-              아파트매매정보</router-link
+          <b-nav-item
+            href="#"
+            class="nav-item"
+            v-if="isLogin & (userInfo.userRole == 0)"
+            ><router-link :to="{ name: 'chart' }" class="nav-link"
+              ><b-icon icon="building" font-scale="2"></b-icon> 관심
+              매물</router-link
             ></b-nav-item
           >
         </b-navbar-nav>
@@ -37,7 +40,7 @@
               variant="primary"
               v-text="userInfo.userId.charAt(0).toUpperCase()"
             ></b-avatar>
-            {{ userInfo.username }}({{ userInfo.userId }})님 환영합니다.
+            {{ userInfo.username }}{{ userInfo.userId }}님 환영합니다.
           </b-nav-item>
           <b-nav-item class="align-self-center">
             <router-link :to="{ name: 'mypage' }" class="link align-self-center"
@@ -83,7 +86,7 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["isLogin", "userInfo"]),
-    ...mapGetters(["checkUserInfo"]),
+    ...mapGetters(memberStore, ["checkUserInfo"]),
   },
   methods: {
     ...mapActions(memberStore, ["userLogout"]),
