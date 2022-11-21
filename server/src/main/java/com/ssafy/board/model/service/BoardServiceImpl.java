@@ -1,5 +1,6 @@
 package com.ssafy.board.model.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int totalArticleCount(Map<String, String> map) throws Exception {
 		return boardMapper.totalArticleCount(map);
+	}
+
+	@Override
+	public List<BoardDto> selectBoardLimitOffset(int limit, int offset, String key, String word) throws Exception {
+		return boardMapper.selectBoardLimitOffset(limit, offset, key, word);
+	}
+
+	@Override
+	public int selectBoardTotalCount() throws Exception {
+		return boardMapper.selectBoardTotalCount();
 	}
 	
 

@@ -1,5 +1,6 @@
 package com.ssafy.board.model.mapper;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,11 +10,14 @@ import com.ssafy.board.model.BoardDto;
 
 @Mapper
 public interface BoardMapper {
-	List<BoardDto> listArticle(Map<String, Object> map) throws Exception;
-	BoardDto getArticle(int articleNo) throws Exception;
-	void writeArticle(BoardDto board) throws Exception;
-	void modifyArticle(BoardDto board) throws Exception;
-	void deleteArticle(int articleNo) throws Exception;
-	int totalArticleCount(Map<String, String> map) throws Exception;
-	void updateHit(int articleNo) throws Exception;
+	List<BoardDto> listArticle(Map<String, Object> map) throws SQLException;
+	BoardDto getArticle(int articleNo) throws SQLException;
+	void writeArticle(BoardDto board) throws SQLException;
+	void modifyArticle(BoardDto board) throws SQLException;
+	void deleteArticle(int articleNo) throws SQLException;
+	int totalArticleCount(Map<String, String> map) throws SQLException;
+	void updateHit(int articleNo) throws SQLException;
+	// for pagination (page-link)
+	List<BoardDto> selectBoardLimitOffset(int limit, int offset, String key, String word) throws SQLException;
+	int selectBoardTotalCount() throws SQLException;
 }

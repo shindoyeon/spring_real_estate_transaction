@@ -20,7 +20,7 @@
 				and subject like concat('%', #{word}, '%')
 			</if>
 			<if test="key != 'subject'">
-				and #{key} = #{word}
+				and userId = #{word}
 			</if>
 		</if>
 	</sql>
@@ -74,4 +74,19 @@
 		where articleNo = #{articleNo}
 	</update>
 	
+	<!-- for vue pagination (page-link) -->
+	<!-- 게시글 limit offset 조회 -->
+	<select id="selectBoardLimitOffset" parameterType="map" resultMap="article">
+		select articleNo, subject, userId, content, hit, likes, registerTime
+		from board
+		<where>
+			<include refid="search"></include>
+		</where>
+		limit #{limit} offset #{offset}
+	</select>
+
+	<!-- 게시글 limit offset 조회 -->
+	<select id="selectBoardTotalCount" resultType="int">
+		select count(*) from board
+	</select>
 </mapper>

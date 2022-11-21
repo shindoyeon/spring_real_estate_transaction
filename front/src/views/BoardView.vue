@@ -7,6 +7,5 @@
 <script>
 export default {
   name: "BoardView",
-  components: {},
 };
 </script>

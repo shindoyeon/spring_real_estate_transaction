@@ -62,7 +62,7 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
-const http = apiInstance();
+const api = apiInstance();
 export default {
   name: "BoardDetail",
   data() {
@@ -78,7 +78,7 @@ export default {
   created() {
     let no = this.$route.params.no;
 
-    http
+    api
       .get(`/board/detail/${no}`)
       .then(({ data }) => {
         this.articleNo = data.articleNo;
@@ -97,7 +97,7 @@ export default {
       this.$router.push(`/board/modify/${no}`);
     },
     deleteArticle(no) {
-      http.delete(`/board/delete/${no}`).then(({ data }) => {
+      api.delete(`/board/delete/${no}`).then(({ data }) => {
         let msg = "삭제 처리시 문제가 발생했습니다.";
         if (data === "success") {
           msg = "삭제가 완료되었습니다.";

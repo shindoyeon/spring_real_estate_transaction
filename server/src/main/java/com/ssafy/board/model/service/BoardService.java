@@ -14,5 +14,7 @@ public interface BoardService {
 	void modifyArticle(BoardDto boardDto) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
 	int totalArticleCount(Map<String, String> map) throws Exception;
-	
+	// for pagination (page-link)
+	List<BoardDto> selectBoardLimitOffset(int limit, int offset, String key, String word) throws Exception;
+	int selectBoardTotalCount() throws Exception;
 }

@@ -29,6 +29,8 @@ import com.ssafy.board.model.BoardDto;
 import com.ssafy.board.model.service.BoardService;
 import com.ssafy.util.*;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/board")
 @CrossOrigin("*")
@@ -44,32 +46,24 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 
-	@GetMapping("/list")
-	private ResponseEntity<List<BoardDto>> list(@RequestParam Map<String, String> map) throws Exception {
+	@ApiOperation(value = "limit offset 에 해당하는 게시글의 정보를 반환한다.  ", response = List.class)
+	@GetMapping(value = "/list")
+	public ResponseEntity<List<BoardDto>> selectBoardLimitOffset(@RequestParam Map<String, String> map) throws Exception {
+		logger.debug("selectBoardLimitOffset - 호출 {}",map);
 
-		List<BoardDto> list = boardService.listArticle(map);
-		int articlecnt = boardService.totalArticleCount(map);
-
-		int spl = SizeConstant.SIZE_PER_LIST;
-		int pl = SizeConstant.LIST_SIZE;
-
-		int pageno = Integer.parseInt(map.get("pgno"));
-
-		int startpage = (pageno - 1) / 10 * pl + 1;
-		int endpage = startpage + 9;
-		int lastpage = articlecnt / spl + 1;
-
-		// 33-20 < 10
-		if (articlecnt - spl * startpage < spl * pl) { // 전체 개수-현재페이지까지 개수가 지정된 페이지 수 보다 작으면
-			endpage = articlecnt / spl + 1;
-		}
-
-		ResponseEntity<List<BoardDto>> result = ResponseEntity.ok().body(list);
-		logger.debug("BoardController list: {}",result);
-		return result;
-
+		int limit = Integer.parseInt(map.get("limit"));
+		int offset = Integer.parseInt(map.get("offset"));
+		String key = map.get("key");
+		String word = map.get("word");
+		return new ResponseEntity<List<BoardDto>>(boardService.selectBoardLimitOffset(limit,offset,key,word), HttpStatus.OK);
 	}
-
+	
+	@ApiOperation(value = "게시글의 전체 건수를 반환한다.  ", response = List.class)
+	@GetMapping(value = "/pagelink/count")
+	public ResponseEntity<Integer> selectBoardTotalCount() throws Exception {
+		logger.debug("selectBoardTotalCount - 호출");
+		return new ResponseEntity<Integer>(boardService.selectBoardTotalCount(), HttpStatus.OK);
+	}
 	@GetMapping("/mvwrite")
 	private String mvWrite() {
 		return "board/write";
@@ -91,7 +85,7 @@ public class BoardController {
 
 	@GetMapping("/detail/{articleNo}")
 	public ResponseEntity<?> view(@PathVariable int articleNo) throws Exception {
-		logger.debug("input <========== {}", articleNo);
+		logger.debug("detail {}", articleNo);
 		boardService.updateHit(articleNo);
 		BoardDto boardDto = boardService.getArticle(articleNo);
 

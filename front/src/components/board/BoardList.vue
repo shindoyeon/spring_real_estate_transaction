@@ -20,7 +20,7 @@
             <div class="col-md-7 offset-3">
               <b-form class="d-flex">
                 <input type="hidden" name="act" value="list" />
-                <input type="hidden" name="pgno" value="1" />
+                <input type="hidden" name="no" value="1" />
                 <b-form-select
                   class="form-select form-select-sm ms-5 me-1 w-50"
                   v-model="selected"
@@ -32,7 +32,12 @@
                     class="form-control"
                     placeholder="검색어..."
                   />
-                  <b-button id="btn-search" class="btn btn-dark" type="button">
+                  <b-button
+                    id="btn-search"
+                    class="btn btn-dark"
+                    type="button"
+                    @click="initComponent"
+                  >
                     검색
                   </b-button>
                 </div>
@@ -42,9 +47,9 @@
           <b-table-simple striped hover small caption-top responsive>
             <colgroup>
               <col style="width: 5%" />
-              <col style="width: 35%" />
+              <col style="width: 30%" />
               <col style="width: 25%" />
-              <col style="width: 5%" />
+              <col style="width: 10%" />
               <col style="width: 30%" />
             </colgroup>
             <b-thead>
@@ -59,6 +64,7 @@
             <b-tbody>
               <article-item
                 v-for="(article, index) in articles"
+                :no="article.no"
                 :key="index"
                 :article="article"
                 :index="index"
@@ -66,6 +72,7 @@
             </b-tbody>
           </b-table-simple>
         </div>
+        <page-link :currentPageIndex="currentPageIndex"></page-link>
       </div>
     </b-container>
   </div>
@@ -74,16 +81,18 @@
 <script>
 import { apiInstance } from "@/api/index.js";
 import ArticleItem from "@/components/board/ArticleItem.vue";
-const http = apiInstance();
+import PageLink from "@/components/board/PageLink.vue";
+const api = apiInstance();
 export default {
   name: "BoardList",
+  props: ["currentPageIndex"],
   components: {
     ArticleItem,
+    PageLink,
   },
   data() {
     return {
       articles: [],
-      pgno: 1,
       subkey: "",
       word: "",
       searchText: "",
@@ -93,22 +102,44 @@ export default {
         { value: "subject", text: "제목" },
         { value: "userId", text: "작성자" },
       ],
+      pageLimit: 10,
+      pageOffet: 0,
     };
   },
   created() {
-    this.boardlist();
+    this.initComponent();
+  },
+  watch: {
+    "$route.query": function () {
+      console.log("watch");
+      this.initComponent();
+    },
   },
   methods: {
-    boardlist() {
-      http
-        .get(
-          `/board/list?pgno=${this.pgno}&key=${this.subkey}&word=${this.word}`
-        )
+    initComponent() {
+      if (this.$route.query.no == null) {
+        console.log("init");
+        this.offset = 0;
+        this.pageLimit = 10;
+        this.selected = null;
+        this.searchText = "";
+      } else {
+        this.offset = `${this.$route.query.no - this.pageLimit}`;
+      }
+      api
+        .get("/board/list", {
+          params: {
+            key: this.selected,
+            word: this.searchText,
+            limit: this.pageLimit,
+            offset: this.offset,
+          },
+        })
         .then(({ data }) => {
           this.articles = data;
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          alert("에러가 발생했습니다.");
         });
     },
     moveWrite() {
