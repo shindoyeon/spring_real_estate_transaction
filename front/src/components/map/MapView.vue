@@ -157,20 +157,20 @@ export default {
       });
       this.markers.push(marker);
       marker.setMap(this.map);
-      // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-      var content =
-        '<div class="customoverlay">' +
-        '    <span class="title">구의</span>' +
-        "</div>";
+      // // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      // var content =
+      //   '<div class="customoverlay">' +
+      //   '    <span class="title">구의</span>' +
+      //   "</div>";
 
-      // 커스텀 오버레이를 생성합니다
-      var customOverlay = new kakao.maps.CustomOverlay({
-        map: this.map,
-        position: markerPosition,
-        content: content,
-        yAnchor: 1,
-      });
-      customOverlay.setMap(this.map);
+      // // 커스텀 오버레이를 생성합니다
+      // var customOverlay = new kakao.maps.CustomOverlay({
+      //   map: this.map,
+      //   position: markerPosition,
+      //   content: content,
+      //   yAnchor: 1,
+      // });
+      // customOverlay.setMap(this.map);
     },
     addInfoWindow() {
       console.log("addiw");
@@ -246,7 +246,7 @@ export default {
 #wrapper {
   position: relative;
 }
-.customoverlay {
+/* .customoverlay {
   position: relative;
   bottom: 85px;
   border-radius: 6px;
@@ -289,5 +289,5 @@ export default {
   width: 22px;
   height: 12px;
   background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-}
+} */
 </style>
