@@ -6,6 +6,7 @@ import {
   tokenRegeneration,
   logout,
   update,
+  deleteById,
 } from "@/api/member";
 
 const memberStore = {
@@ -13,7 +14,7 @@ const memberStore = {
   state: {
     isLogin: false,
     isLoginError: false,
-    userInfo: {},
+    userInfo: null,
     isValidToken: false,
   },
   getters: {
@@ -34,8 +35,8 @@ const memberStore = {
     SET_IS_VALID_TOKEN: (state, isValidToken) => {
       state.isValidToken = isValidToken;
     },
-    SET_USER_INFO: (state, userInfo) => {
-      state.userInfo = userInfo;
+    SET_USER_INFO: (state, payload) => {
+      state.userInfo = payload;
     },
   },
   actions: {
@@ -154,6 +155,21 @@ const memberStore = {
           } else {
             console.log("유저 정보 없음!!!!");
           }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    async userDelete({ commit }, userId) {
+      await deleteById(
+        userId,
+        (success) => {
+          console.log("회원탈퇴 액션 들어옴");
+          commit("SET_IS_LOGIN", false);
+          commit("SET_USER_INFO", null);
+          commit("SET_IS_VALID_TOKEN", false);
+          console.log(success);
         },
         (error) => {
           console.log(error);

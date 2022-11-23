@@ -13,6 +13,8 @@ import UserFindPwd from "@/components/user/UserFindPwd.vue";
 import UserRegister from "@/components/user/UserRegister.vue";
 import UserModify from "@/components/user/UserModify.vue";
 import UserManage from "@/components/user/UserManage.vue";
+import UserDelete from "@/components/user/UserDelete.vue";
+import IntersaleList from "@/components/intersale/IntersaleList.vue";
 
 import store from "@/store";
 
@@ -76,12 +78,23 @@ const routes = [
         component: UserModify,
       },
       {
+        path: "userdelete",
+        name: "userdelete",
+        beforeEnter: onlyAuthUser,
+        component: UserDelete,
+      },
+      {
         path: "usermanage",
         name: "usermanage",
         beforeEnter: onlyAuthUser,
         component: UserManage,
       },
     ],
+  },
+  {
+    path: "/intersale",
+    name: "intersale",
+    component: IntersaleList,
   },
   {
     path: "/board",

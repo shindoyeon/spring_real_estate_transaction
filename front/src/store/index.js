@@ -6,6 +6,7 @@ import createPersistedState from "vuex-persistedstate";
 import dealViewStore from "./modules/dealViewStore";
 import memberStore from "./modules/memberStore";
 import bookmarkStore from "./modules/bookmarkStore";
+import kakaoStore from "./modules/kakaoStore";
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     dealViewStore,
     memberStore,
     bookmarkStore,
+    kakaoStore,
   },
   plugins: [
     createPersistedState({

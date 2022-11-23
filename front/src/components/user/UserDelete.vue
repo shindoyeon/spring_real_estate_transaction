@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert variant="secondary" show><h3>로그인</h3></b-alert>
+        <b-alert variant="secondary" show><h3>회원탈퇴</h3></b-alert>
       </b-col>
     </b-row>
     <b-row>
@@ -13,15 +13,6 @@
             <b-alert show variant="danger" v-if="isLoginError"
               >아이디 또는 비밀번호를 확인하세요.</b-alert
             >
-            <b-form-group label="아이디:" label-for="userId">
-              <b-form-input
-                id="userId"
-                v-model="user.userId"
-                required
-                placeholder="아이디 입력...."
-                @keyup.enter="confirm"
-              ></b-form-input>
-            </b-form-group>
             <b-form-group label="비밀번호:" label-for="userPassword">
               <b-form-input
                 type="password"
@@ -37,14 +28,7 @@
               variant="primary"
               class="m-1"
               @click="confirm"
-              >로그인</b-button
-            >
-            <b-button
-              type="button"
-              variant="success"
-              class="m-1"
-              @click="movePage"
-              >회원가입</b-button
+              >회원탈퇴</b-button
             >
           </b-form>
         </b-card>
@@ -60,11 +44,10 @@ import { mapState, mapActions } from "vuex";
 const memberStore = "memberStore";
 
 export default {
-  name: "UserLogin",
+  name: "UserDelete",
   data() {
     return {
       user: {
-        userId: null,
         userPassword: null,
       },
     };
@@ -73,20 +56,17 @@ export default {
     ...mapState(memberStore, ["isLogin", "isLoginError", "userInfo"]),
   },
   methods: {
-    ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
+    ...mapActions(memberStore, ["userConfirm", "getUserInfo", "userDelete"]),
     ...mapActions("bookmarkStore", ["getBookmarkList"]),
     async confirm() {
-      await this.userConfirm(this.user);
-      let token = sessionStorage.getItem("access-token");
-      if (this.isLogin) {
-        await this.getUserInfo(token);
-        await this.getBookmarkList(this.userInfo.userId);
-        // console.log("4. confirm() userInfo :: ", this.userInfo);
-        this.$router.push({ name: "home" });
+      if (this.userInfo.userPassword != this.user.userPassword) {
+        alert("비밀번호를 정확히 입력해주십시오.");
+        return;
+      } else {
+        this.userDelete(this.userInfo.userId);
+        console.log("회원삭제 완료!");
       }
-    },
-    movePage() {
-      this.$router.push({ name: "join" });
+      this.$router.push({ name: "home" });
     },
   },
 };

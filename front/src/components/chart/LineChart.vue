@@ -90,7 +90,7 @@ export default {
         this.chartData.labels.push(gDate);
         this.chartData.datasets[0].data.push(thisDealAmount);
       });
-      console.log(this.chartData.datasets[0].data);
+      // console.log("data" + this.chartData.datasets[0].data);
     },
   },
   data() {

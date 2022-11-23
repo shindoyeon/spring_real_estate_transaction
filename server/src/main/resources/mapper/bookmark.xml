@@ -13,16 +13,26 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="deleteBookmark" parameterType="string">
+	<delete id="deleteBookmark" parameterType="map">
 		delete from intersale
 		where aptCode = #{aptCode} and userId = #{userId}
-	</insert>
+	</delete>
 	
 	
 	<select id="bookmarkList" parameterType="string" resultType="IntersaleDto">
 		select aptCode, userId
 		from intersale
 		where userId = #{userId}
+	</select>
+	
+	<select id="getHouseInfo" parameterType="string" resultType="HouseInfoDto">
+			select
+		aptCode,buildYear,roadName,roadNameBonbun,roadNameBubun,roadNameSeq,roadNameBasementCode,roadNameCode
+		,dong,bonbun,bubun,sigunguCode
+		,eubmyundongCode,dongCode,landCode,apartmentName,jibun,lng,lat
+		from
+		houseinfo
+		where aptCode = #{aptCode}
 	</select>
 	
 </mapper>

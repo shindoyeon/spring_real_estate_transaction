@@ -62,7 +62,6 @@ export default {
         userId: this.userId,
         userEmail: this.userEmail,
       };
-      console.log(user);
       api
         .put(`/user/password`, user)
         .then(({ data }) => {
@@ -77,8 +76,7 @@ export default {
           // }
         })
         .catch((error) => {
-          console.log("FindPW: error : ");
-          console.log(error);
+          console.log("FindPW: error : ", error);
 
           if (error.response.status == "404") {
             this.$swal(

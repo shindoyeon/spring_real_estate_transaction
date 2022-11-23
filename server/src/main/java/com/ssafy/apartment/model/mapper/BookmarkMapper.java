@@ -13,6 +13,7 @@ import com.ssafy.apartment.model.IntersaleDto;
 @Mapper
 public interface BookmarkMapper {
 	void addBookmark(String aptCode,String userId) throws SQLException;
-	void deleteBookmark(String aptCode,String userId) throws Exception;
+	void deleteBookmark(Map<String,String> map) throws Exception;
 	List<IntersaleDto> bookmarkList(String userId) throws SQLException;
+	HouseInfoDto getHouseInfo(String aptCode) throws SQLException;
 }

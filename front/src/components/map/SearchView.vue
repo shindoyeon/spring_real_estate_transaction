@@ -181,7 +181,6 @@ export default {
 
     onDongMenuChange() {
       this.getHouseListByDong(this.dongCode);
-      console.log(this.houseList);
     },
 
     initSearchByDongBox() {

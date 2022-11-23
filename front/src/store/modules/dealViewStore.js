@@ -62,11 +62,9 @@ const dealViewStore = {
     },
     SET_CURINDEX(state, payload) {
       state.curIndex = payload;
-      console.log(state.curIndex);
     },
     SET_LISTVISIBLE(state, payload) {
       state.listVisible = payload;
-      console.log(state.listVisible);
     },
   },
   actions: {
@@ -106,7 +104,6 @@ const dealViewStore = {
       houseListByDong(
         dongCode,
         ({ data }) => {
-          console.log(data);
           commit("SET_HOUSE_LIST", data);
         },
         (error) => {
@@ -120,7 +117,6 @@ const dealViewStore = {
       HouseListByKeyword(
         keyword,
         ({ data }) => {
-          console.log(data);
           commit("SET_HOUSE_LIST", data);
         },
         (error) => {

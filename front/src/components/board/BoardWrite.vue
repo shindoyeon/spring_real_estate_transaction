@@ -101,7 +101,6 @@ export default {
         subject: this.article.subject,
         content: this.article.content,
       };
-      console.log(myData);
       http
         .post(`/board/write`, myData)
         .then(({ data }) => {

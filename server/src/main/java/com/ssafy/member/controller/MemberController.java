@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,11 +40,11 @@ public class MemberController {
 	private final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
-	
+
 	private final MemberService memberService;
 	@Autowired
 	private JwtServiceImpl jwtService;
-	
+
 	@Autowired
 	public MemberController(MemberService memberService) {
 		logger.info("MemberController 생성자 호출!!");
@@ -54,10 +55,10 @@ public class MemberController {
 	public ResponseEntity<String> idCheck(@PathVariable("userId") String userId) throws Exception {
 		logger.debug("idCheck userId : {}", userId);
 		int cnt = memberService.idCheck(userId);
-		
-		return new ResponseEntity<String>(cnt+"", HttpStatus.OK);
+
+		return new ResponseEntity<String>(cnt + "", HttpStatus.OK);
 	}
-	
+
 	@ApiOperation(value = "회원가입", notes = "회원가입과 그 결과를 반환한다.")
 	@PostMapping("/join")
 	public ResponseEntity<?> join(@RequestBody MemberDto memberDto) {
@@ -68,14 +69,12 @@ public class MemberController {
 			memberService.joinMember(memberDto);
 			resultMap.put("message", SUCCESS);
 			status = HttpStatus.ACCEPTED;
-		} catch(Exception e){
+		} catch (Exception e) {
 			resultMap.put("message", FAIL);
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	
 
 	@ApiOperation(value = "로그인", notes = "Access-token과 로그인 결과 메세지를 반환한다.", response = Map.class)
 	@PostMapping("/login")
@@ -83,15 +82,15 @@ public class MemberController {
 			@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) MemberDto memberDto) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		logger.debug("id: {}, password: {}",memberDto.getUserId(),memberDto.getUserPassword());
+		logger.debug("id: {}, password: {}", memberDto.getUserId(), memberDto.getUserPassword());
 		try {
 			MemberDto loginUser = memberService.loginMember(memberDto);
-			
+
 			if (loginUser != null) {
 //				a토큰, r토큰
 				String accessToken = jwtService.createAccessToken("userId", loginUser.getUserId());// key, data
 				String refreshToken = jwtService.createRefreshToken("userId", loginUser.getUserId());// key, data
-				System.out.println("login: "+memberDto.getUserId()+" "+refreshToken);
+				System.out.println("login: " + memberDto.getUserId() + " " + refreshToken);
 				memberService.saveRefreshToken(memberDto.getUserId(), refreshToken);
 				logger.debug("로그인 accessToken 정보 : {}", accessToken);
 				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
@@ -110,15 +109,15 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	@PutMapping("/password")
 	public ResponseEntity<Map<String, Object>> findPassword(@RequestBody MemberDto user) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
-		boolean result=false;
+		boolean result = false;
 		logger.info("findpassword {}", user);
 		try {
-			
+
 			result = memberService.findPassword(user);
 			System.out.println("controller result  " + result);
 			if (result) {
@@ -163,7 +162,7 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{userId}")
 	public ResponseEntity<?> removeToken(@PathVariable("userId") String userId) {
@@ -181,7 +180,7 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 	}
-	
+
 	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.", response = Map.class)
 	@PostMapping("/refresh")
 	public ResponseEntity<?> refreshToken(@RequestBody MemberDto memberDto, HttpServletRequest request)
@@ -205,7 +204,7 @@ public class MemberController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	@ApiOperation(value = "사용자리스트를 반환한다.  ", response = List.class)
 	@GetMapping(value = "/list")
 	public ResponseEntity<List<MemberDto>> getList() throws Exception {
@@ -213,14 +212,13 @@ public class MemberController {
 
 		return new ResponseEntity<List<MemberDto>>(memberService.listMember(), HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/info")
-	public String info(Model model, HttpSession session) {		
+	public String info(Model model, HttpSession session) {
 		try {
-			MemberDto memberDto = memberService.getMember(((MemberDto)(session.getAttribute("userinfo"))).getUserId());
+			MemberDto memberDto = memberService.getMember(((MemberDto) (session.getAttribute("userinfo"))).getUserId());
 			logger.debug("memberDto info : {}", memberDto);
-			model.addAttribute("user",memberDto);
+			model.addAttribute("user", memberDto);
 			return "/user/info";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -228,15 +226,15 @@ public class MemberController {
 			return "error/error";
 		}
 	}
-	
+
 	@ApiOperation(value = "회원수정", notes = "회원수정과 그 결과를 반환한다.")
 	@PutMapping("/update")
-	public ResponseEntity<?> update(@RequestBody MemberDto member) {		
+	public ResponseEntity<?> update(@RequestBody MemberDto member) {
 		try {
 			logger.debug("update : {}", member);
-			MemberDto memberDto= memberService.updateMember(member);
+			MemberDto memberDto = memberService.updateMember(member);
 			logger.debug("memberDto info : {}", member);
-			return new ResponseEntity<MemberDto> (memberDto,HttpStatus.OK);
+			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -245,25 +243,36 @@ public class MemberController {
 
 	@ApiOperation(value = "회원탈퇴여수정", notes = "회원수정과 그 결과를 반환한다.")
 	@PutMapping("/updatedel")
-	public ResponseEntity<?> updatedel(@RequestBody MemberDto member) {	
+	public ResponseEntity<?> updatedel(@RequestBody MemberDto member) {
 		logger.debug("update : {}", member);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 		try {
-			int update= memberService.updateDelflag(member);
-			if(update>0) {
+			int update = memberService.updateDelflag(member);
+			if (update > 0) {
 				resultMap.put("message", SUCCESS);
 				status = HttpStatus.ACCEPTED;
-			}
-			else {
+			} else {
 				resultMap.put("message", FAIL);
-				status = HttpStatus.INTERNAL_SERVER_ERROR;		
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		} catch (Exception e) {
 			resultMap.put("message", FAIL);
-			status = HttpStatus.INTERNAL_SERVER_ERROR;		
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
+	@ApiOperation(value = "회원삭제", notes = "회원수정과 그 결과를 반환한다.")
+	@DeleteMapping("/{userId}")
+	public void delete(@PathVariable("userId") String userId) {
+		try {
+			logger.debug("delete : {}", userId);
+			memberService.deleteMember(userId);
+			logger.info("회원 삭제 완료!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

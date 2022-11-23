@@ -12,7 +12,7 @@
           <div class="row align-self-center mb-2">
             <div class="col-md-2 text-start">
               <b-button
-                v-if="userInfo.userRole == 1"
+                v-if="isLogin && userInfo.userRole == 1"
                 variant="btn btn-outline-primary btn-sm"
                 @click="moveWrite()"
                 >글쓰기</b-button
@@ -119,7 +119,6 @@ export default {
   },
   watch: {
     "$route.query": function () {
-      console.log("watch");
       this.initComponent();
     },
   },

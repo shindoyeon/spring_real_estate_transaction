@@ -2,14 +2,6 @@
   <div v-if="listVisible" id="showList" class="card p-0 bg-secondary">
     <!-- <b-icon icon="house" font-scale="2"></b-icon> -->
     <div
-      v-if="salechk"
-      class="text-center text-white py-2"
-      style="background-color: #ccc"
-    >
-      <h6>매물 보기 (0개)</h6>
-    </div>
-    <div
-      v-else
       class="text-center text-primary py-2 bg-primary"
       style="cursor: pointer"
     ></div>
@@ -18,7 +10,9 @@
       <div
         class="p-3 border-bottom d-flex justify-content-between align-items-center"
       >
-        <h4 class="m-0">{{ houseList[curIndex].apartmentName }}</h4>
+        <h4 class="m-0">
+          {{ houseList[curIndex].apartmentName }}
+        </h4>
         <button
           @click="setBookmark"
           type="button"
@@ -37,7 +31,6 @@
             v-else
           ></b-icon>
         </button>
-        <!-- contents -->
       </div>
       <div class="px-3">
         <div class="border-bottom d-flex py-2">
@@ -50,6 +43,12 @@
           <div>{{ houseList[curIndex].buildYear }}</div>
         </div>
       </div>
+    </div>
+    <!-- 주변 인프라 버튼 -->
+    <div class="bg-white mb-2 p-3 border-bottom d-flex align-items-center">
+      <button @click="setInfraBookmark" type="button" class="btn btn-info">
+        <h4 class="m-0 justify-content-center">주변 인프라 정보 보기</h4>
+      </button>
     </div>
     <!-- 거주민 리뷰 -->
     <!-- <div class="bg-white mb-2">
@@ -171,9 +170,11 @@
 <script>
 import LineChart from "@/components/chart/LineChart.vue";
 import { mapActions, mapMutations, mapState } from "vuex";
+// import { kakaoApiInstance } from "@/api/kakao.js";
 // import { apiInstance } from "@/api/index.js";
 
 // const api = apiInstance();
+// const kakaoHttp = kakaoApiInstance();
 const storeName = "dealViewStore";
 
 export default {
@@ -213,12 +214,12 @@ export default {
       "getBookmarkList",
       "deleteBookmark",
     ]),
+    ...mapActions("kakaoStore", ["getPharms"]),
     ...mapMutations("bookmarkStore", ["SET_BOOKMARK_LIST", "SET_ISBOOKMARK"]),
     onKeywordSearch() {
       if (this.inputKeyword == "") {
         this.$swal("키워드를 입력하세요.", { icon: "error" });
       } else {
-        console.log("inputKeyword : " + this.inputKeyword);
         this.eventFrom = "keyword";
         this.getHouseListByKeyword(this.inputKeyword);
       }
@@ -232,14 +233,19 @@ export default {
         alert("로그인이 필요한 서비스입니다.");
       } else {
         if (!this.isBookmark) {
-          console.log(param);
           this.insertBookmark(param);
-          console.log("bookmarkList:" + this.bookmarkList);
         } else {
           this.deleteBookmark(param);
           console.log("북마크 삭제 완료");
         }
       }
+    },
+    setInfraBookmark() {
+      let params = {
+        x: this.houseList[this.curIndex].lng,
+        y: this.houseList[this.curIndex].lat,
+      };
+      this.getPharms(params);
     },
   },
 };

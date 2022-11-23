@@ -46,7 +46,7 @@
               >정보수정</b-button
             ></router-link
           >
-          <router-link :to="{ name: 'join' }" class="link"
+          <router-link :to="{ name: 'userdelete' }" class="link"
             ><b-button variant="danger">회원탈퇴</b-button></router-link
           >
         </b-jumbotron>

@@ -1,10 +1,16 @@
-import { addbookmark, bookmarkList, delBookmark } from "@/api/bookmark.js";
+import {
+  addbookmark,
+  bookmarkList,
+  delBookmark,
+  myBookmarkList,
+} from "@/api/bookmark.js";
 
 const bookmarkStore = {
   namespaced: true,
   state: {
     bookmarkList: [],
     isBookmark: false,
+    myBookmarkList: [],
   },
   getters: {},
   mutations: {
@@ -13,6 +19,9 @@ const bookmarkStore = {
     },
     SET_ISBOOKMARK(state, payload) {
       state.isBookmark = payload;
+    },
+    SET_MY_BOOKMARK_LIST(state, payload) {
+      state.myBookmarkList = payload;
     },
   },
   actions: {
@@ -30,8 +39,8 @@ const bookmarkStore = {
         }
       );
     },
-    deleteBookmark: ({ commit }, params) => {
-      delBookmark(
+    async deleteBookmark({ commit }, params) {
+      await delBookmark(
         params,
         ({ data }) => {
           commit("SET_BOOKMARK_LIST", data);
@@ -47,6 +56,18 @@ const bookmarkStore = {
         params,
         ({ data }) => {
           commit("SET_BOOKMARK_LIST", data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    getMyBookmarkList: ({ commit }, params) => {
+      myBookmarkList(
+        params,
+        ({ data }) => {
+          commit("SET_MY_BOOKMARK_LIST", data);
+          console.log("내북마크리스트 수정완료");
         },
         (error) => {
           console.log(error);

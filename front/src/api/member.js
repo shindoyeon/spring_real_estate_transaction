@@ -25,4 +25,7 @@ async function update(user, success, fail) {
   await api.put(`/user/update`, user).then(success).catch(fail);
 }
 
-export { login, findById, tokenRegeneration, logout, update };
+async function deleteById(userId, success, fail) {
+  await api.delete(`/user/${userId}`).then(success).catch(fail);
+}
+export { login, findById, tokenRegeneration, logout, update, deleteById };

@@ -11,8 +11,8 @@ function addbookmark(params, success, fail) {
     .catch(fail);
 }
 
-function delBookmark(params, success, fail) {
-  api
+async function delBookmark(params, success, fail) {
+  await api
     .delete(`/bookmark/${params.aptCode}/${params.userId}`)
     .then(success)
     .catch(fail);
@@ -22,4 +22,8 @@ function bookmarkList(params, success, fail) {
   api.get(`/bookmark/${params}`).then(success).catch(fail);
 }
 
-export { addbookmark, bookmarkList, delBookmark };
+function myBookmarkList(params, success, fail) {
+  api.get(`/bookmark/info/${params}`).then(success).catch(fail);
+}
+
+export { addbookmark, bookmarkList, delBookmark, myBookmarkList };
