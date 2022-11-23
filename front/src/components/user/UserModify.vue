@@ -181,7 +181,7 @@ export default {
         return;
       } else {
         this.userUpdate(user);
-        this.$router.push(`/user/usermodify`);
+        this.$router.push(`/user/mypage`);
       }
     },
   },

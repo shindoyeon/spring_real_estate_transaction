@@ -31,16 +31,16 @@
           <button href="#" class="nav-item" @click="kakaoTest">
             <b-icon icon="building" font-scale="2"></b-icon> 테스트
           </button>
-        <b-nav-item
-          href="#"
-          class="nav-item"
-          v-if="isLogin && userInfo.userRole == 1"
-          ><router-link :to="{ name: 'usermanage' }" class="nav-link"
-            ><b-icon icon="building" font-scale="2"></b-icon> 회원
-            관리</router-link
-          >
-        </b-nav-item>
-
+          <b-nav-item
+            href="#"
+            class="nav-item"
+            v-if="isLogin && userInfo.userRole == 1"
+            ><router-link :to="{ name: 'usermanage' }" class="nav-link"
+              ><b-icon icon="building" font-scale="2"></b-icon> 회원
+              관리</router-link
+            >
+          </b-nav-item>
+        </b-navbar-nav>
         <!-- after login -->
         <b-navbar-nav class="ml-auto float-right" v-if="isLogin">
           <b-nav-item class="align-self-center">
