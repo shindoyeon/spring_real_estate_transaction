@@ -11,6 +11,9 @@ import { mapState, mapActions, mapMutations } from "vuex";
 import DealView from "@/components/map/DealView.vue";
 import SearchView from "@/components/map/SearchView.vue";
 import ImageSrc from "@/assets/images/house3.png";
+import PharmacySrc from "@/assets/images/pharmacy.png";
+import BankSrc from "@/assets/images/bank.png";
+import SubwaySrc from "@/assets/images/subway.png";
 // import { apiInstance } from "@/api/index.js";
 
 const storeName = "dealViewStore";
@@ -32,45 +35,6 @@ export default {
       clusterer: null,
     };
   },
-
-  component: {
-    DealView,
-    SearchView,
-  },
-  computed: {
-    ...mapState(storeName, [
-      "gu",
-      "dong",
-      "houseList",
-      "houseDealList",
-      "fromMainKeyword",
-      "curIndex",
-      "listVisible",
-      "infraTrigger",
-    ]),
-    ...mapState("bookmarkStore", ["bookmarkList"]),
-  },
-  watch: {
-    houseList: function () {
-      if (this.clusterer != null) {
-        this.clusterer.clear();
-      }
-      this.removeMarkers();
-      this.removeInfraMarkers();
-      this.SET_LISTVISIBLE(false);
-      if (this.houseList.length) {
-        this.addMarkers(this.houseList);
-      } else {
-        // alert("정보가 없습니다.");
-      }
-    },
-    infraTrigger: function () {
-      console.log("인프라 트리거 바뀜!");
-      this.removeInfraMarkers();
-      this.add;
-    },
-  },
-
   mounted() {
     // kakao map 초기화
     if (window.kakao && window.kakao.maps) {
@@ -88,7 +52,56 @@ export default {
       document.head.appendChild(script);
     }
   },
+  component: {
+    DealView,
+    SearchView,
+  },
+  watch: {
+    houseList: function () {
+      //클러스터 + 오버레이 초기화
+      if (this.clusterer != null) {
+        this.clusterer.clear();
+        for (let i = 0; i < this.overlays.length; i++) {
+          this.overlays[i].setMap(null);
+        }
+      }
+      //마커들 초기화
+      this.removeMarkers();
+      this.removeInfraMarkers();
+      this.SET_LISTVISIBLE(false);
 
+      //마커들 추가
+      if (this.houseList.length) {
+        this.addMarkers(this.houseList);
+      } else {
+        // alert("정보가 없습니다.");
+      }
+    },
+    infraTrigger: function () {
+      console.log("인프라 트리거 바뀜!");
+      this.removeInfraMarkers();
+      this.addInfraMarkers(this.pharmsList, "pharms");
+      this.addInfraMarkers(this.banksList, "bank");
+      this.addInfraMarkers(this.subwaysList, "subway");
+      this.addInfraInfoWindow();
+    },
+  },
+
+  computed: {
+    //스테이트
+    ...mapState(storeName, [
+      "gu",
+      "dong",
+      "houseList",
+      "houseDealList",
+      "fromMainKeyword",
+      "curIndex",
+      "listVisible",
+      "infraTrigger",
+    ]),
+    ...mapState("bookmarkStore", ["bookmarkList"]),
+    ...mapState("kakaoStore", ["pharmsList", "subwaysList", "banksList"]),
+  },
   methods: {
     //액션
     ...mapActions(storeName, ["getHouseDealList"]),
@@ -109,7 +122,6 @@ export default {
       // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
       // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
-
       kakao.maps.event.addListener(map, "zoom_changed", () => {
         // 지도의 현재 레벨을 얻어옵니다
         // var level = map.getLevel();
@@ -156,6 +168,7 @@ export default {
       this.bankMarkers.forEach((m) => m.setMap(null));
       this.bankMarkers = [];
     },
+    //아파트 마커
     addMarkers(list) {
       let bounds = new kakao.maps.LatLngBounds();
 
@@ -256,7 +269,113 @@ export default {
         });
       });
     },
+    //인프라 마커
+    addInfraMarkers(list, infra) {
+      let bounds = new kakao.maps.LatLngBounds();
+
+      list.forEach(({ y, x }) => {
+        let markerPosition = new kakao.maps.LatLng(y, x);
+        this.addInfraMarkerByOne(markerPosition, infra);
+        bounds.extend(markerPosition);
+      });
+      this.map.setBounds(bounds);
+    },
+    addInfraMarkerByOne(markerPosition, infra) {
+      var infrasrc;
+      if (infra == "pharms") {
+        infrasrc = PharmacySrc;
+      } else if (infra == "bank") {
+        infrasrc = BankSrc;
+      } else if (infra == "subway") {
+        infrasrc = SubwaySrc;
+      }
+      var imageSrc = infrasrc, // 마커이미지의 주소입니다
+        imageSize = new kakao.maps.Size(25, 25), // 마커이미지의 크기입니다
+        imageOption = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+      // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(
+        imageSrc,
+        imageSize,
+        imageOption
+      );
+
+      let marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImage,
+      });
+
+      if (infra == "pharms") {
+        this.pharmMarkers.push(marker);
+      } else if (infra == "subway") {
+        this.subwayMarkers.push(marker);
+      } else if (infra == "bank") {
+        this.bankMarkers.push(marker);
+      }
+      marker.setMap(this.map);
+    },
+    addInfraInfoWindow() {
+      //약국 인포윈도우
+      this.pharmMarkers.forEach((marker, index) => {
+        let item = this.pharmsList[index];
+        let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.place_name}</div>`;
+
+        let infoWindow = new kakao.maps.InfoWindow({
+          content: infoContents,
+        });
+        // infoWindow.open(this.map, marker);
+        // this.infoWindows.push(infoWindow);
+        let $this = this;
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          infoWindow.open($this.map, marker);
+          // $this.curInfoWindow = infoWindow;
+        });
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          infoWindow.close();
+        });
+      });
+      //지하철 인포윈도우
+      this.subwayMarkers.forEach((marker, index) => {
+        let item = this.subwaysList[index];
+        let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.place_name}</div>`;
+
+        let infoWindow = new kakao.maps.InfoWindow({
+          content: infoContents,
+        });
+        // infoWindow.open(this.map, marker);
+        // this.infoWindows.push(infoWindow);
+        let $this = this;
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          infoWindow.open($this.map, marker);
+          // $this.curInfoWindow = infoWindow;
+        });
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          infoWindow.close();
+        });
+      });
+      //은행 인포윈도우
+      this.bankMarkers.forEach((marker, index) => {
+        let item = this.banksList[index];
+        let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.place_name}</div>`;
+
+        let infoWindow = new kakao.maps.InfoWindow({
+          content: infoContents,
+        });
+        // infoWindow.open(this.map, marker);
+        // this.infoWindows.push(infoWindow);
+        let $this = this;
+        kakao.maps.event.addListener(marker, "mouseover", function () {
+          infoWindow.open($this.map, marker);
+          // $this.curInfoWindow = infoWindow;
+        });
+        kakao.maps.event.addListener(marker, "mouseout", function () {
+          infoWindow.close();
+        });
+      });
+    },
+
     showHouseDetail(index) {
+      this.removeInfraMarkers();
       if (document.getElementById("showList")) {
         document.getElementById("showList").scrollTop = 0;
       }

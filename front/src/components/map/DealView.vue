@@ -205,16 +205,23 @@ export default {
     ]),
     ...mapState("memberStore", ["isLogin", "userInfo"]),
     ...mapState("bookmarkStore", ["bookmarkList", "isBookmark"]),
+    ...mapState("kakaoStore", ["pharmsList", "subwaysList", "banksList"]),
+    ...mapState("dealViewStore", ["infraTrigger"]),
   },
 
   methods: {
+    //actions
     ...mapActions(storeName, ["getHouseListByKeyword"]),
+    ...mapActions("kakaoStore", ["getPharms", "getSubways", "getBanks"]),
     ...mapActions("bookmarkStore", [
       "insertBookmark",
       "getBookmarkList",
       "deleteBookmark",
     ]),
-    ...mapActions("kakaoStore", ["getPharms"]),
+
+    //mutations
+    ...mapMutations("dealViewStore", ["SET_INFRA_TRIGGER"]),
+    ...mapMutations("kakaoStore", ["CLEAR_ALL_INFRA"]),
     ...mapMutations("bookmarkStore", ["SET_BOOKMARK_LIST", "SET_ISBOOKMARK"]),
     onKeywordSearch() {
       if (this.inputKeyword == "") {
@@ -240,12 +247,18 @@ export default {
         }
       }
     },
-    setInfraBookmark() {
+    async setInfraBookmark() {
+      this.CLEAR_ALL_INFRA();
       let params = {
         x: this.houseList[this.curIndex].lng,
         y: this.houseList[this.curIndex].lat,
       };
-      this.getPharms(params);
+      await this.getPharms(params);
+      await this.getSubways(params);
+      await this.getBanks(params);
+
+      //인프라 마커생성 트리거 작동
+      this.SET_INFRA_TRIGGER();
     },
   },
 };
