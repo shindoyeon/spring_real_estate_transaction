@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.apartment.model.HouseDealDto;
 import com.ssafy.apartment.model.HouseInfoDto;
+import com.ssafy.apartment.model.mapper.HouseMapMapper;
 import com.ssafy.apartment.model.mapper.HousedealMapper;
 
 @Service
@@ -37,6 +38,9 @@ public class HousedealServiceImpl implements HousedealService{
 	public List<HouseDealDto> getHouseDeal(String houseNo) throws Exception {
 		return housedealMapper.getHouseDeal(houseNo);
 	}
-
+	@Override
+	public List<HouseInfoDto> getHouseListByDong(String dong) throws Exception {
+		return housedealMapper.getHouseListByDong(dong);
+	}
 	
 }

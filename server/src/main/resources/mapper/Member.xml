@@ -29,7 +29,7 @@
 	<select id="listMember" resultMap="member">
 		select userId, userName, userEmail, userPhone, userRole, delflag
 		from members
-		order by userRole
+		where userRole=0
 	</select>
 	
 	<select id="getMember" parameterType="string" resultMap="member">
@@ -90,4 +90,9 @@
 		where userId = #{userId}
 	</delete>
 	
+	<update id="updateDelflag" parameterType="memberDto">
+		update members
+		set delflag = #{delflag}
+		where userId = #{userId}
+	</update>
 </mapper>

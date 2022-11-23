@@ -61,12 +61,6 @@ public class HouseMapController {
 		logger.info("dong - 호출");
 		return new ResponseEntity<List<SidoGugunCodeDto>>(haHouseMapService.getDongInGugun(gugun), HttpStatus.OK);
 	}
-	
-	@GetMapping("/list/{dong}")
-	public ResponseEntity<List<HouseInfoDto>> houseListByDong(@PathVariable("dong") String dong) throws Exception {
-		logger.info("apt - 호출");
-		return new ResponseEntity<List<HouseInfoDto>>(haHouseMapService.getHouseListByDong(dong), HttpStatus.OK);
-	}
 
 
 //	@GetMapping("/dong")

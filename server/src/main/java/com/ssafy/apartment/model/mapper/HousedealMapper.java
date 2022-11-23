@@ -14,4 +14,5 @@ public interface HousedealMapper {
 	List<HouseDealDto> list() throws SQLException;
     List<HouseInfoDto> listByKeyword(String keyword) throws SQLException;
     List<HouseDealDto> getHouseDeal(String houseNo) throws SQLException;
+    List<HouseInfoDto> getHouseListByDong(String gugun) throws SQLException;
 }

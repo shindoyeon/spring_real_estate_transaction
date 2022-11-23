@@ -92,6 +92,11 @@ public class HousedealController {
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-		
+	}
+	
+	@GetMapping("/list/{dong}")
+	public ResponseEntity<List<HouseInfoDto>> houseListByDong(@PathVariable("dong") String dong) throws Exception {
+		logger.info("apt - 호출");
+		return new ResponseEntity<List<HouseInfoDto>>(housedealService.getHouseListByDong(dong), HttpStatus.OK);
 	}
 }

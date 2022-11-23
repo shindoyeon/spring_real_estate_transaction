@@ -15,7 +15,7 @@ function dongList(gugun, success, fail) {
 }
 
 function houseListByDong(dong, success, fail) {
-  api.get(`/map/list/${dong}`).then(success).catch(fail);
+  api.get(`/house/list/${dong}`).then(success).catch(fail);
 }
 
 function HouseListByKeyword(params, success, fail) {

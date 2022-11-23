@@ -23,4 +23,6 @@ public class HouseInfoDto {
 	private String jibun;
 	private String lng;
 	private String lat;
+	private String maxAmount;
+	private String minAmount;
 }

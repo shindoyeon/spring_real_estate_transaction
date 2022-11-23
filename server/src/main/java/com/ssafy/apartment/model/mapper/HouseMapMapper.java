@@ -14,5 +14,4 @@ public interface HouseMapMapper {
 	List<SidoGugunCodeDto> getSido() throws SQLException;
 	List<SidoGugunCodeDto> getGugunInSido(String sido) throws SQLException;
 	List<SidoGugunCodeDto> getDongInGugun(String gugun) throws SQLException;
-	List<HouseInfoDto> getHouseListByDong(String gugun) throws SQLException;
 }

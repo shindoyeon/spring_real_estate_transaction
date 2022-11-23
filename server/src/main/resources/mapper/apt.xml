@@ -25,13 +25,4 @@
  		order by dongName
 	</select>
 	
-	<select id="getHouseListByDong" parameterType="string"
-		resultType="com.ssafy.apartment.model.HouseInfoDto">
-		select aptCode, buildYear, roadName, roadNameBonbun, roadNameBubun, roadNameSeq, roadNameBasementCode, roadNameCode
-		, dong, bonbun, bubun, sigunguCode
-		, eubmyundongCode, dongCode, landCode, apartmentName, jibun,lng,lat
-  		from houseinfo
- 		where dongCode = #{dong}
- 		order by apartmentName
-	</select>
 </mapper>

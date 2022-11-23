@@ -50,5 +50,17 @@
 		where apartmentName like concat('%',#{keyword}, '%')
 	</select>
 	
-	
+	<select id="getHouseListByDong" parameterType="string"
+		resultType="com.ssafy.apartment.model.HouseInfoDto">
+ 		select hi.aptCode, hi.buildYear, hi.roadName, hi.roadNameBonbun, hi.roadNameBubun, hi.roadNameSeq, hi.roadNameBasementCode, hi.roadNameCode,
+			   hi.dong, hi.bonbun, hi.bubun, hi.sigunguCode, hi.eubmyundongCode, hi.dongCode, hi.landCode, hi.apartmentName, hi.jibun, hi.lng, hi.lat,
+			   max(hd.dealAmount) as maxAmount, min(hd.dealAmount) as minAmount
+  		  from (select aptCode, buildYear, roadName, roadNameBonbun, roadNameBubun, roadNameSeq, roadNameBasementCode, roadNameCode,
+  		  			   dong, bonbun, bubun, sigunguCode, eubmyundongCode, dongCode, landCode, apartmentName, jibun, lng, lat
+  				  from houseinfo
+ 				 where dongCode = #{dong}) hi, housedeal hd 
+		 where hi.aptCode = hd.aptCode
+		 group by hi.aptCode
+		 order by hi.apartmentName
+	</select>
 </mapper>
