@@ -18,8 +18,8 @@ function houseListByDong(dong, success, fail) {
   api.get(`/house/list/${dong}`).then(success).catch(fail);
 }
 
-function HouseListByKeyword(params, success, fail) {
-  api.get(`/house/list/keyword/${params}`).then(success).catch(fail);
+async function HouseListByKeyword(params, success, fail) {
+  await api.get(`/house/list/keyword/${params}`).then(success).catch(fail);
 }
 
 function HouseDealList(params, success, fail) {

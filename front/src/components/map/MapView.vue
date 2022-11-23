@@ -23,9 +23,13 @@ export default {
   data() {
     return {
       markers: [],
+      pharmMarkers: [],
+      subwayMarkers: [],
+      bankMarkers: [],
       map: "",
       dealInfo: [],
       overlays: [],
+      clusterer: null,
     };
   },
 
@@ -42,19 +46,28 @@ export default {
       "fromMainKeyword",
       "curIndex",
       "listVisible",
+      "infraTrigger",
     ]),
     ...mapState("bookmarkStore", ["bookmarkList"]),
   },
   watch: {
     houseList: function () {
+      if (this.clusterer != null) {
+        this.clusterer.clear();
+      }
       this.removeMarkers();
+      this.removeInfraMarkers();
       this.SET_LISTVISIBLE(false);
       if (this.houseList.length) {
         this.addMarkers(this.houseList);
-        console.log(this.houseList);
       } else {
         // alert("정보가 없습니다.");
       }
+    },
+    infraTrigger: function () {
+      console.log("인프라 트리거 바뀜!");
+      this.removeInfraMarkers();
+      this.add;
     },
   },
 
@@ -77,7 +90,9 @@ export default {
   },
 
   methods: {
+    //액션
     ...mapActions(storeName, ["getHouseDealList"]),
+    //뮤테이션
     ...mapMutations(storeName, ["SET_CURINDEX", "SET_LISTVISIBLE"]),
     ...mapMutations("bookmarkStore", ["SET_ISBOOKMARK"]),
     initMap() {
@@ -97,10 +112,9 @@ export default {
 
       kakao.maps.event.addListener(map, "zoom_changed", () => {
         // 지도의 현재 레벨을 얻어옵니다
-        var level = map.getLevel();
-
-        var message = "현재 지도 레벨은 " + level + " 입니다";
-        console.log(message);
+        // var level = map.getLevel();
+        // var message = "현재 지도 레벨은 " + level + " 입니다";
+        // console.log(message);
 
         this.setOverlay();
       });
@@ -129,8 +143,18 @@ export default {
 
       // this.infoWindows.forEach(i => i.close());
       // this.infoWindows = [];
-      this.markers.forEach((m) => m.setMap(null));
+      this.markers.forEach((m) => {
+        m.setMap(null);
+      });
       this.markers = [];
+    },
+    removeInfraMarkers() {
+      this.pharmMarkers.forEach((m) => m.setMap(null));
+      this.pharmMarkers = [];
+      this.subwayMarkers.forEach((m) => m.setMap(null));
+      this.subwayMarkers = [];
+      this.bankMarkers.forEach((m) => m.setMap(null));
+      this.bankMarkers = [];
     },
     addMarkers(list) {
       let bounds = new kakao.maps.LatLngBounds();
@@ -143,7 +167,7 @@ export default {
       this.addInfoWindow();
       this.map.setBounds(bounds);
       // 마커 클러스터러를 생성합니다
-      var clusterer = new kakao.maps.MarkerClusterer({
+      this.clusterer = new kakao.maps.MarkerClusterer({
         map: this.map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
         averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
         minLevel: 6, // 클러스터 할 최소 지도 레벨
@@ -160,8 +184,7 @@ export default {
           },
         ],
       });
-
-      clusterer.addMarkers(this.markers);
+      this.clusterer.addMarkers(this.markers);
     },
     addMarkerByOne(markerPosition, index) {
       var imageSrc = ImageSrc, // 마커이미지의 주소입니다

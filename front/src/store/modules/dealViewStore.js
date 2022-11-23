@@ -20,6 +20,7 @@ const dealViewStore = {
     listVisible: false,
     // 메인 페이지에서 받을 키워드
     fromMainKeyword: "",
+    infraTrigger: false,
   },
   getters: {},
   mutations: {
@@ -66,6 +67,9 @@ const dealViewStore = {
     SET_LISTVISIBLE(state, payload) {
       state.listVisible = payload;
     },
+    SET_INFRA_TRIGGER(state) {
+      state.infraTrigger = !state.infraTrigger;
+    },
   },
   actions: {
     getSido: ({ commit }) => {
@@ -111,10 +115,10 @@ const dealViewStore = {
         }
       );
     },
-    getHouseListByKeyword({ commit }, keyword) {
+    async getHouseListByKeyword({ commit }, keyword) {
       //const params = { keyword: keyword };
       console.log(keyword);
-      HouseListByKeyword(
+      await HouseListByKeyword(
         keyword,
         ({ data }) => {
           commit("SET_HOUSE_LIST", data);

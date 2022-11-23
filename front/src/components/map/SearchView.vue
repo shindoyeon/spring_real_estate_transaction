@@ -189,13 +189,13 @@ export default {
       this.getSido();
     },
 
-    onKeywordSearch() {
+    async onKeywordSearch() {
       if (this.inputKeyword == "") {
         this.$swal("키워드를 입력하세요.", { icon: "error" });
       } else {
         console.log("inputKeyword : " + this.inputKeyword);
         this.eventFrom = "keyword";
-        this.getHouseListByKeyword(this.inputKeyword);
+        await this.getHouseListByKeyword(this.inputKeyword);
       }
     },
   },

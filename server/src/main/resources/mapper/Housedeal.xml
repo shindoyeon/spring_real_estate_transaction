@@ -41,13 +41,18 @@
 
 	<select id="listByKeyword" parameterType="string"
 		resultType="com.ssafy.apartment.model.HouseInfoDto">
-		select
-		aptCode,buildYear,roadName,roadNameBonbun,roadNameBubun,roadNameSeq,roadNameBasementCode,roadNameCode
-		,dong,bonbun,bubun,sigunguCode
-		,eubmyundongCode,dongCode,landCode,apartmentName,jibun,lng,lat
-		from
-		houseinfo
-		where apartmentName like concat('%',#{keyword}, '%')
+		select hi.aptCode, hi.buildYear, hi.roadName, hi.roadNameBonbun, hi.roadNameBubun, hi.roadNameSeq, hi.roadNameBasementCode, hi.roadNameCode,
+			   hi.dong, hi.bonbun, hi.bubun, hi.sigunguCode, hi.eubmyundongCode, hi.dongCode, hi.landCode, hi.apartmentName, hi.jibun, hi.lng, hi.lat,
+			   max(hd.dealAmount) as maxAmount, min(hd.dealAmount) as minAmount
+  		  from ( select hinfo.aptCode, hinfo.buildYear, hinfo.roadName, hinfo.roadNameBonbun, hinfo.roadNameBubun, hinfo.roadNameSeq, hinfo.roadNameBasementCode, hinfo.roadNameCode
+	 				  , hinfo.dong, hinfo.bonbun, hinfo.bubun, hinfo.sigunguCode, hinfo.eubmyundongCode, hinfo.dongCode, hinfo.landCode, hinfo.apartmentName, hinfo.jibun, hinfo.lng, hinfo.lat
+  				   from houseinfo hinfo, dongcode dc
+ 				  where hinfo.dongCode = dc.dongCode
+   					and ((match(hinfo.apartmentName) against(concat('%',#{keyword}, '%'))) or (match(dc.dongName) against(concat('%',#{keyword}, '%'))))
+                   ) hi, housedeal hd 
+ 		 where hi.aptCode = hd.aptCode
+ 		 group by hi.aptCode
+ 		 order by hi.apartmentName
 	</select>
 	
 	<select id="getHouseListByDong" parameterType="string"
