@@ -1,6 +1,7 @@
 package com.ssafy.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,17 +12,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.member.model.MemberDto;
@@ -143,7 +141,6 @@ public class MemberController {
 	public ResponseEntity<Map<String, Object>> getInfo(
 			@PathVariable("userId") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userId,
 			HttpServletRequest request) {
-//		logger.debug("userId : {} ", userId);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		if (jwtService.checkToken(request.getHeader("access-token"))) {
@@ -209,15 +206,14 @@ public class MemberController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	@GetMapping("/list")
-	public String list(Model model) {
-		try {
-			model.addAttribute("users",memberService.listMember());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return "/user/list";
+	@ApiOperation(value = "사용자리스트를 반환한다.  ", response = List.class)
+	@GetMapping(value = "/list")
+	public ResponseEntity<List<MemberDto>> getList() throws Exception {
+		logger.info("getList - 호출");
+
+		return new ResponseEntity<List<MemberDto>>(memberService.listMember(), HttpStatus.OK);
 	}
+	
 	
 	@GetMapping("/info")
 	public String info(Model model, HttpSession session) {		
@@ -247,4 +243,27 @@ public class MemberController {
 		}
 	}
 
+	@ApiOperation(value = "회원탈퇴여수정", notes = "회원수정과 그 결과를 반환한다.")
+	@PutMapping("/updatedel")
+	public ResponseEntity<?> updatedel(@RequestBody MemberDto member) {	
+		logger.debug("update : {}", member);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			int update= memberService.updateDelflag(member);
+			if(update>0) {
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			}
+			else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.INTERNAL_SERVER_ERROR;		
+			}
+		} catch (Exception e) {
+			resultMap.put("message", FAIL);
+			status = HttpStatus.INTERNAL_SERVER_ERROR;		
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 }

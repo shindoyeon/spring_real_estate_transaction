@@ -18,4 +18,5 @@ public interface MemberService {
 	void saveRefreshToken(String userid, String refreshToken) throws Exception;
 	Object getRefreshToken(String userid) throws Exception;
 	void deleRefreshToken(String userid) throws Exception;
+	int updateDelflag(MemberDto memberDto) throws Exception;
 }

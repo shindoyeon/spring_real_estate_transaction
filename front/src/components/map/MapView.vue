@@ -25,6 +25,7 @@ export default {
       markers: [],
       map: "",
       dealInfo: [],
+      overlays: [],
     };
   },
 
@@ -46,7 +47,6 @@ export default {
   },
   watch: {
     houseList: function () {
-      console.log("houseLIst change");
       this.removeMarkers();
       this.SET_LISTVISIBLE(false);
       if (this.houseList.length) {
@@ -65,15 +65,15 @@ export default {
     } else {
       const script = document.createElement("script");
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.initMap);
+      script.onload = () => {
+        kakao.maps.load(this.initMap);
+      };
+
       script.src =
         "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=014457ed3fb8a37eda241f4e7dc80c57&libraries=clusterer";
 
       document.head.appendChild(script);
     }
-    // appkey 앞에 autoload=false&
-    // console.log(this.prevRoute);
-    // console.log(this.prevRoute.name);
   },
 
   methods: {
@@ -87,10 +87,39 @@ export default {
         center: new kakao.maps.LatLng(37.5012743, 127.039585),
         level: 6,
       };
-      console.log(mapOption);
       this.map = new kakao.maps.Map(mapContainer, mapOption);
-    },
+      var map = this.map;
+      // // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+      // var zoomControl = new kakao.maps.ZoomControl();
+      // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
+      // 지도가 확대 또는 축소되면 마지막 파라미터로 넘어온 함수를 호출하도록 이벤트를 등록합니다
+
+      kakao.maps.event.addListener(map, "zoom_changed", () => {
+        // 지도의 현재 레벨을 얻어옵니다
+        var level = map.getLevel();
+
+        var message = "현재 지도 레벨은 " + level + " 입니다";
+        console.log(message);
+
+        this.setOverlay();
+      });
+    },
+    setOverlay() {
+      var level = this.map.getLevel();
+      if (level > 6) {
+        let i;
+        for (i = 0; i < this.overlays.length; i++) {
+          this.overlays[i].setVisible(false);
+        }
+      }
+      if (level <= 6) {
+        let i;
+        for (i = 0; i < this.overlays.length; i++) {
+          this.overlays[i].setVisible(true);
+        }
+      }
+    },
     //지도 관련 메소드
     removeMarkers() {
       // if (this.curInfoWindow) {
@@ -117,7 +146,7 @@ export default {
       var clusterer = new kakao.maps.MarkerClusterer({
         map: this.map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
         averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-        minLevel: 5, // 클러스터 할 최소 지도 레벨
+        minLevel: 6, // 클러스터 할 최소 지도 레벨
         styles: [
           {
             width: "50px",
@@ -157,23 +186,34 @@ export default {
       });
       this.markers.push(marker);
       marker.setMap(this.map);
-      // // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-      // var content =
-      //   '<div class="customoverlay">' +
-      //   '    <span class="title">구의</span>' +
-      //   "</div>";
+      // 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+      let item = this.houseList[index];
+      let min = item.minAmount / 10000;
+      let max = item.maxAmount / 10000;
+      var content =
+        `<div class="customoverlay">` +
+        `    <span class="title">${min}억~<br>${max}억</span>` +
+        `</div>`;
 
-      // // 커스텀 오버레이를 생성합니다
-      // var customOverlay = new kakao.maps.CustomOverlay({
-      //   map: this.map,
-      //   position: markerPosition,
-      //   content: content,
-      //   yAnchor: 1,
-      // });
-      // customOverlay.setMap(this.map);
+      // 커스텀 오버레이를 생성합니다
+      var customOverlay = new kakao.maps.CustomOverlay({
+        map: this.map,
+        position: markerPosition,
+        content: content,
+        yAnchor: 1,
+      });
+
+      kakao.maps.event.addListener(customOverlay, "mouseover", function () {
+        customOverlay.parent("div").css("z-index", "100");
+      });
+
+      kakao.maps.event.addListener(customOverlay, "mouseleave", function () {
+        customOverlay.parent("div").css("z-index", "1");
+      });
+      this.overlays.push(customOverlay);
+      customOverlay.setMap(this.map);
     },
     addInfoWindow() {
-      console.log("addiw");
       this.markers.forEach((marker, index) => {
         let item = this.houseList[index];
         let infoContents = `<div style="width:150px;text-align:center;padding:6px 0;">${item.apartmentName}</div>`;
@@ -185,15 +225,6 @@ export default {
         // this.infoWindows.push(infoWindow);
         let $this = this;
         kakao.maps.event.addListener(marker, "mouseover", function () {
-          // console.log(1)
-          // console.log(this.curInfoWindow)
-          // if ($this.curInfoWindow) {
-          //   if ($this.curInfoWindow.name != item.aptName) {
-          //     $this.curInfoWindow.close();
-          //     infoWindow.open(this.map, marker);
-          //   }
-          // } else {
-          //   console.log('ttt')
           infoWindow.open($this.map, marker);
           // $this.curInfoWindow = infoWindow;
         });
@@ -209,7 +240,6 @@ export default {
       this.SET_CURINDEX(index);
 
       const houseNo = this.houseList[index].aptCode;
-      console.log(houseNo);
       this.getHouseDealList(houseNo);
       // this.getOngoingList(houseNo);
       // this.getHouseReview(houseNo);
@@ -218,9 +248,7 @@ export default {
       let bookchk = false;
       this.bookmarkList.forEach((bookmark) => {
         let code = this.houseList[this.curIndex].aptCode;
-        console.log("code : " + code);
         if (code == bookmark.aptCode) {
-          console.log("찾았음");
           bookchk = true;
         }
       });
@@ -246,13 +274,13 @@ export default {
 #wrapper {
   position: relative;
 }
-/* .customoverlay {
+.customoverlay {
   position: relative;
-  bottom: 85px;
+  bottom: 75px;
   border-radius: 6px;
   border: 1px solid #ccc;
   border-bottom: 2px solid #ddd;
-  float: left;
+  /* float: left; */
 }
 .customoverlay:nth-of-type(n) {
   border: 0;
@@ -275,9 +303,10 @@ export default {
 .customoverlay .title {
   display: block;
   text-align: center;
-  background: #fff;
-  padding: 10px 15px;
-  font-size: 14px;
+  background: #50627f;
+  color: #fff;
+  padding: 3px 8px;
+  font-size: 12px;
   font-weight: bold;
 }
 .customoverlay:after {
@@ -288,6 +317,6 @@ export default {
   bottom: -12px;
   width: 22px;
   height: 12px;
-  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png");
-} */
+  /* background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png"); */
+}
 </style>

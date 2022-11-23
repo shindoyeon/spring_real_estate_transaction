@@ -12,6 +12,7 @@ import UserMyPage from "@/components/user/UserMyPage.vue";
 import UserFindPwd from "@/components/user/UserFindPwd.vue";
 import UserRegister from "@/components/user/UserRegister.vue";
 import UserModify from "@/components/user/UserModify.vue";
+import UserManage from "@/components/user/UserManage.vue";
 
 import store from "@/store";
 
@@ -32,7 +33,6 @@ const onlyAuthUser = async (to, from, next) => {
     // next({ name: "login" });
     router.push({ name: "login" });
   } else {
-    console.log("로그인 했다!!!!!!!!!!!!!.");
     next();
   }
 };
@@ -74,6 +74,12 @@ const routes = [
         name: "usermodify",
         beforeEnter: onlyAuthUser,
         component: UserModify,
+      },
+      {
+        path: "usermanage",
+        name: "usermanage",
+        beforeEnter: onlyAuthUser,
+        component: UserManage,
       },
     ],
   },

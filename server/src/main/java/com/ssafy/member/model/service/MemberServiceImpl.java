@@ -103,7 +103,12 @@ public class MemberServiceImpl implements MemberService {
 		memberMapper.deleteRefreshToken(map);
 
 	}
-	
+
+	@Override
+	public int updateDelflag(MemberDto memberDto) throws Exception {
+		return memberMapper.updateDelflag(memberDto);
+	}
+
 	private static String getRandomPassword(int len) {
 
         char[] charSet = new char[] {
