@@ -30,6 +30,9 @@
             />
           </div>
           <button class="submit-btn" @click="confirm">login</button>
+          <button class="submit-btn" @click="findpassword">
+            find password
+          </button>
         </div>
         <div class="login slide-up">
           <div class="center">
@@ -109,43 +112,6 @@ import { apiInstance } from "@/api/index.js";
 const api = apiInstance();
 const memberStore = "memberStore";
 
-// window.onload = function () {
-//   setTimeout(initload, 2000);
-// };
-// function initload() {
-//   const loginBtn = document.getElementById("login");
-//   const signupBtn = document.getElementById("signup");
-//   console.log(loginBtn);
-//   if (loginBtn != null) {
-//     loginBtn.addEventListener("click", (e) => {
-//       console.log("loginBtn");
-//       let parent = e.target.parentNode.parentNode;
-//       Array.from(e.target.parentNode.parentNode.classList).find((element) => {
-//         if (element !== "slide-up") {
-//           parent.classList.add("slide-up");
-//         } else {
-//           signupBtn.parentNode.classList.add("slide-up");
-//           parent.classList.remove("slide-up");
-//         }
-//       });
-//     });
-//   }
-
-//   if (signupBtn != null) {
-//     signupBtn.addEventListener("click", (e) => {
-//       console.log("signupBtn");
-//       let parent = e.target.parentNode;
-//       Array.from(e.target.parentNode.classList).find((element) => {
-//         if (element !== "slide-up") {
-//           parent.classList.add("slide-up");
-//         } else {
-//           loginBtn.parentNode.parentNode.classList.add("slide-up");
-//           parent.classList.remove("slide-up");
-//         }
-//       });
-//     });
-//   }
-// }
 export default {
   name: "UserLogin",
   data() {
@@ -215,6 +181,9 @@ export default {
       this.$router.push({ name: "join" });
     },
 
+    findpassword() {
+      this.$router.push({ name: "findpwd" });
+    },
     idcheck() {
       let resultDiv = document.querySelector("#idcheck-result");
       if (

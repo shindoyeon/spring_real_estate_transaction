@@ -66,23 +66,13 @@ export default {
         .put(`/user/password`, user)
         .then(({ data }) => {
           console.log(data);
-          // if (data.message === "success") {
-          //   console.log(data);
-          //   // this.$swal(
-          //   //   "비밀번호가 초기화되었습니다.",
-          //   //   `${this.userEmail}(으)로 임시비밀번호를 보냈습니다. 로그인 후 비밀번호를 변경해주세요.`,
-          //   //   { icon: "success" }
-          //   // ).then(() => this.$router.push("/"));
-          // }
+          alert("등록하신 이메일로 임시 비밀번호를 발급하였습니다.");
         })
         .catch((error) => {
           console.log("FindPW: error : ", error);
 
           if (error.response.status == "404") {
-            this.$swal(
-              "요청하신 사용자 정보가 존재하지 않습니다. 정보를 다시 한 번 확인하세요.",
-              { icon: "error" }
-            );
+            alert("임시 비밀번호 발급을 실패하였습니다.");
           } else {
             this.$swal("서버에 문제가 발생하였습니다.", { icon: "error" });
           }
