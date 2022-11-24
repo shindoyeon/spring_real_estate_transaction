@@ -6,7 +6,7 @@
       style="cursor: pointer"
     ></div>
     <!-- 아파트 정보 요약 -->
-    <div class="bg-white mb-2">
+    <div class="bg-white mb-1">
       <div
         class="p-3 border-bottom d-flex justify-content-between align-items-center"
       >
@@ -20,13 +20,13 @@
         >
           <b-icon
             icon="heart-fill"
-            font-scale="2"
+            font-scale="1.5"
             variant="danger"
             v-if="isBookmark"
           ></b-icon>
           <b-icon
             icon="heart-fill"
-            font-scale="2"
+            font-scale="1.5"
             variant="secondary"
             v-else
           ></b-icon>
@@ -45,9 +45,14 @@
       </div>
     </div>
     <!-- 주변 인프라 버튼 -->
-    <div class="bg-white mb-2 p-3 border-bottom d-flex align-items-center">
-      <button @click="setInfraBookmark" type="button" class="btn btn-info">
-        <h4 class="m-0">주변 인프라 정보</h4>
+    <div class="bg-white mb-1 p-1 border-bottom d-flex align-items-center">
+      <button
+        @click="setInfraBookmark"
+        type="button"
+        class="btn btn-info m-2"
+        style="font-size: 15px; padding: 5px 10px"
+      >
+        주변 인프라 정보
       </button>
 
       <!-- 원래 리뷰 버튼 -->
@@ -56,16 +61,17 @@
       <!-- @click="showModal = true" -->
       <button
         type="button"
-        class="btn btn-danger"
+        class="btn btn-danger m-2"
+        style="font-size: 15px; padding: 5px 10px"
         id="show-modal"
         @click="showReviewModal"
       >
-        <h4 class="m-0">리뷰 등록</h4>
+        리뷰 등록
       </button>
     </div>
 
     <!-- 실거래가 -->
-    <div class="bg-white mb-2">
+    <div class="bg-white mb-1">
       <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
       <div>
         <line-chart />
@@ -107,7 +113,7 @@
       </div>
     </div>
     <!-- 거주민 리뷰 -->
-    <div class="bg-white mb-2">
+    <div class="bg-white mb-1">
       <div v-if="reviewList.length == 0" class="p-3 border-top">
         <div>등록된 리뷰가 없습니다.</div>
       </div>

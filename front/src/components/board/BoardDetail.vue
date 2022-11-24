@@ -1,39 +1,41 @@
 <template>
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-        <mark class="sky">글보기</mark>
-      </h2>
+      <h2 class="my-3 py-3 shadow-sm bg-light text-center">공지사항</h2>
     </div>
     <div class="col-lg-8 col-md-10 col-sm-12">
-      <div class="row my-2">
-        <h2 class="text-secondary px-5">{{ articleNo }}.{{ subject }}</h2>
+      <div class="row my-2" style="text-align: left padding:px margin:5px">
+        <h3 class="text-secondary px-5">{{ articleNo }}.{{ subject }}</h3>
       </div>
       <div class="row">
         <div class="col-md-8">
-          <div class="clearfix align-content-center">
+          <div class="clearfix m-2" style="text-align: left">
             <img
               class="avatar me-2 float-md-start bg-light p-2"
               src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
             />
             <p>
-              <span class="fw-bold">{{ userId }}</span> <br />
-              <span class="text-secondary fw-light">
-                {{ registerTime }} 조회 : {{ hit }}
+              <span class="fw-bold m-2">{{ userId }}</span> <br />
+              <span class="text-secondary fw-light m-2">
+                {{ registerTime }}
+              </span>
+              <span class="text-secondary fw-light m-2">
+                조회 : {{ hit }}
               </span>
             </p>
           </div>
         </div>
-        <div class="col-md-4 align-self-center text-end">댓글 : 17</div>
         <div class="divider mb-3"></div>
-        <div class="text-secondary">{{ content }}</div>
+        <div class="text-secondary m-2" style="text-align: left">
+          {{ content }}
+        </div>
         <div class="divider mt-3 mb-3"></div>
         <div class="d-flex justify-content-end">
           <router-link to="/board">
             <button
               type="button"
               id="btn-list"
-              class="btn btn-outline-primary mb-3"
+              class="btn btn-outline-primary mb-3 ms-3"
             >
               글목록
             </button>
@@ -41,16 +43,18 @@
           <button
             type="button"
             id="btn-mv-modify"
-            class="btn btn-outline-success mb-3 ms-1"
+            class="btn btn-outline-success mb-3 ms-3"
             @click="moveModify(articleNo)"
+            v-if="userInfo.userRole == 1"
           >
             글수정
           </button>
           <button
             type="button"
             id="btn-delete"
-            class="btn btn-outline-danger mb-3 ms-1"
+            class="btn btn-outline-danger mb-3 ms-1 ms-3"
             @click="deleteArticle(articleNo)"
+            v-if="userInfo.userRole == 1"
           >
             글삭제
           </button>
@@ -62,7 +66,10 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 const api = apiInstance();
+const memberStore = "memberStore";
+
 export default {
   name: "BoardDetail",
   data() {
@@ -74,6 +81,9 @@ export default {
       registerTime: "",
       hit: 0,
     };
+  },
+  computed: {
+    ...mapState(memberStore, ["isLogin", "userInfo"]),
   },
   created() {
     let no = this.$route.params.no;

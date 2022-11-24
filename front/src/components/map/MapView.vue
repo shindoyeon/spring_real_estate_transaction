@@ -451,20 +451,20 @@ export default {
 .customoverlay .title {
   display: block;
   text-align: center;
-  background: #50627f;
+  background: #e59226;
   color: #fff;
-  padding: 3px 8px;
+  padding: 2px 6px;
   font-size: 12px;
   font-weight: bold;
 }
 .customoverlay:after {
   content: "";
   position: absolute;
-  margin-left: -12px;
+  margin-left: -10px;
   left: 50%;
   bottom: -12px;
-  width: 22px;
-  height: 12px;
+  width: 20px;
+  height: 10px;
   /* background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png"); */
 }
 </style>
