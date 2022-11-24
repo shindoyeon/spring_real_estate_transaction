@@ -9,25 +9,30 @@ import org.springframework.stereotype.Service;
 import com.ssafy.apartment.model.HouseInfoDto;
 import com.ssafy.apartment.model.SidoGugunCodeDto;
 import com.ssafy.apartment.model.mapper.HouseMapMapper;
+import com.ssafy.apartment.model.mapper.HousedealMapper;
 
 @Service
 public class HouseMapServiceImpl implements HouseMapService {
 	
+private HouseMapMapper houseMapMapper;
+	
 	@Autowired
-	private SqlSession sqlSession;
+	public HouseMapServiceImpl(HouseMapMapper houseMapMapper) {
+		this.houseMapMapper = houseMapMapper;
+	}
 
 	@Override
 	public List<SidoGugunCodeDto> getSido() throws Exception {
-		return sqlSession.getMapper(HouseMapMapper.class).getSido();
+		return houseMapMapper.getSido();
 	}
 
 	@Override
 	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
-		return sqlSession.getMapper(HouseMapMapper.class).getGugunInSido(sido);
+		return houseMapMapper.getGugunInSido(sido);
 	}
 
 	@Override
 	public List<SidoGugunCodeDto> getDongInGugun(String gugun) throws Exception {
-		return sqlSession.getMapper(HouseMapMapper.class).getDongInGugun(gugun);
+		return houseMapMapper.getDongInGugun(gugun);
 	}	
 }

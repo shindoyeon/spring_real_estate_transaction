@@ -12,8 +12,8 @@
             ><router-link
               :to="{ name: 'home' }"
               class="navbar-brand text-primary fw-bold"
-              ><b-icon icon="house" font-scale="2"></b-icon> Where Is My
-              Home</router-link
+              ><b-icon icon="house" font-scale="2"></b-icon>
+              신씨네복덕방</router-link
             ></b-nav-item
           >
           <b-nav-item href="#" class="nav-item"
