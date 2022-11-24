@@ -3,92 +3,168 @@
     <div class="container">
       <div class="form-structor m-auto">
         <div class="signup">
-          <h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
+          <h2 class="form-title" id="signup" ref="signup" @click="signupclick">
+            <span>or</span>Login
+          </h2>
+          <b-alert show variant="danger" v-if="isLoginError"
+            >아이디 또는 비밀번호를 확인하세요.</b-alert
+          >
           <div class="form-holder">
-            <input type="text" class="input" placeholder="Name" />
-            <input type="email" class="input" placeholder="Email" />
-            <input type="password" class="input" placeholder="Password" />
+            <input
+              type="text"
+              class="input"
+              id="userId"
+              v-model="loginuser.userId"
+              required
+              @keyup.enter="confirm"
+              placeholder="Id"
+            />
+            <input
+              type="password"
+              class="input"
+              id="userPassword"
+              v-model="loginuser.userPassword"
+              required
+              @keyup.enter="confirm"
+              placeholder="Password"
+            />
           </div>
-          <button class="submit-btn">Sign up</button>
+          <button class="submit-btn" @click="confirm">login</button>
         </div>
         <div class="login slide-up">
           <div class="center">
-            <h2 class="form-title" id="login"><span>or</span>Log in</h2>
+            <h2 class="form-title" id="login" ref="login" @click="loginclick">
+              <span>or</span>Sign up
+            </h2>
             <div class="form-holder">
-              <input type="email" class="input" placeholder="Email" />
-              <input type="password" class="input" placeholder="Password" />
+              <input
+                v-model="signupuser.userId"
+                type="text"
+                class="input"
+                @keyup="idcheck"
+                id="signupuser_userId"
+                name="signupuser_userId"
+                placeholder="Id"
+              />
+              <div id="idcheck-result"></div>
+              <input
+                v-model="signupuser.userName"
+                type="text"
+                class="input"
+                id="signupuser_userName"
+                name="signupuser_userName"
+                placeholder="Name"
+              />
+              <input
+                v-model="signupuser.userPassword"
+                type="password"
+                class="input"
+                id="signupuser_userPassword"
+                name="signupuser_userPassword"
+                placeholder="Password"
+              />
+              <input
+                v-model="signupuser.reuserPassword"
+                type="password"
+                class="input"
+                @keyup="pwdcheck"
+                id="signupuser_reuserPassword"
+                name="signupuser_reuserPassword"
+                placeholder="비밀번호 재입력"
+              />
+              <div id="pwdcheck-result"></div>
+              <input
+                v-model="signupuser.userEmail"
+                type="email"
+                class="input"
+                @keyup="emailcheck"
+                id="signupuser_userEmail"
+                name="signupuser_userEmail"
+                placeholder="Email"
+              />
+              <div id="emailcheck-result"></div>
+              <input
+                v-model="signupuser.userPhone"
+                type="text"
+                class="input"
+                id="signupuser_userPhone"
+                name="signupuser_userPhone"
+                placeholder="Phone"
+              />
             </div>
-            <button class="submit-btn">Log in</button>
+            <button class="submit-btn" @click="join" id="btn-join">
+              signup
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <!-- <b-row>
-      <b-col>
-        <b-alert variant="secondary" show><h3>로그인</h3></b-alert>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col></b-col>
-      <b-col cols="8">
-        <b-card class="text-center mt-3" style="max-width: 40rem" align="left">
-          <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isLoginError"
-              >아이디 또는 비밀번호를 확인하세요.</b-alert
-            >
-            <b-form-group label="아이디:" label-for="userId">
-              <b-form-input
-                id="userId"
-                v-model="user.userId"
-                required
-                placeholder="아이디 입력...."
-                @keyup.enter="confirm"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group label="비밀번호:" label-for="userPassword">
-              <b-form-input
-                type="password"
-                id="userPassword"
-                v-model="user.userPassword"
-                required
-                placeholder="비밀번호 입력...."
-                @keyup.enter="confirm"
-              ></b-form-input>
-            </b-form-group>
-            <b-button
-              type="button"
-              variant="primary"
-              class="m-1"
-              @click="confirm"
-              >로그인</b-button
-            >
-            <b-button
-              type="button"
-              variant="success"
-              class="m-1"
-              @click="movePage"
-              >회원가입</b-button
-            >
-          </b-form>
-        </b-card>
-      </b-col>
-      <b-col></b-col>
-    </b-row> -->
   </b-container>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { apiInstance } from "@/api/index.js";
 
+const api = apiInstance();
 const memberStore = "memberStore";
 
+// window.onload = function () {
+//   setTimeout(initload, 2000);
+// };
+// function initload() {
+//   const loginBtn = document.getElementById("login");
+//   const signupBtn = document.getElementById("signup");
+//   console.log(loginBtn);
+//   if (loginBtn != null) {
+//     loginBtn.addEventListener("click", (e) => {
+//       console.log("loginBtn");
+//       let parent = e.target.parentNode.parentNode;
+//       Array.from(e.target.parentNode.parentNode.classList).find((element) => {
+//         if (element !== "slide-up") {
+//           parent.classList.add("slide-up");
+//         } else {
+//           signupBtn.parentNode.classList.add("slide-up");
+//           parent.classList.remove("slide-up");
+//         }
+//       });
+//     });
+//   }
+
+//   if (signupBtn != null) {
+//     signupBtn.addEventListener("click", (e) => {
+//       console.log("signupBtn");
+//       let parent = e.target.parentNode;
+//       Array.from(e.target.parentNode.classList).find((element) => {
+//         if (element !== "slide-up") {
+//           parent.classList.add("slide-up");
+//         } else {
+//           loginBtn.parentNode.parentNode.classList.add("slide-up");
+//           parent.classList.remove("slide-up");
+//         }
+//       });
+//     });
+//   }
+// }
 export default {
   name: "UserLogin",
   data() {
     return {
-      user: {
+      loginuser: {
         userId: null,
         userPassword: null,
+      },
+      signupuser: {
+        userId: "",
+        userName: "",
+        userPassword: "",
+        reuserPassword: "",
+        userEmail: "",
+        userPhone: "",
+        userRole: "",
+        userIdChk: false,
+        userPwdChk: false,
+        userEmailChk: false,
       },
     };
   },
@@ -99,7 +175,7 @@ export default {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
     ...mapActions("bookmarkStore", ["getBookmarkList"]),
     async confirm() {
-      await this.userConfirm(this.user);
+      await this.userConfirm(this.loginuser);
       let token = sessionStorage.getItem("access-token");
       if (this.isLogin) {
         await this.getUserInfo(token);
@@ -108,28 +184,137 @@ export default {
         this.$router.push({ name: "home" });
       }
     },
+    loginclick(event) {
+      const signupBtn = this.$refs.signup; //회원가입
+      let parent = event.target.parentNode.parentNode;
+      Array.from(event.target.parentNode.parentNode.classList).find(
+        (element) => {
+          if (element !== "slide-up") {
+            parent.classList.add("slide-up");
+          } else {
+            signupBtn.parentNode.classList.add("slide-up");
+            parent.classList.remove("slide-up");
+          }
+        }
+      );
+    },
+    signupclick(event) {
+      const loginBtn = this.$refs.login; //회원가입
+      let parent = event.target.parentNode;
+      Array.from(event.target.parentNode.classList).find((element) => {
+        if (element !== "slide-up") {
+          parent.classList.add("slide-up");
+        } else {
+          loginBtn.parentNode.parentNode.classList.add("slide-up");
+          parent.classList.remove("slide-up");
+        }
+      });
+    },
     movePage() {
       this.$router.push({ name: "join" });
+    },
+
+    idcheck() {
+      let resultDiv = document.querySelector("#idcheck-result");
+      if (
+        this.signupuser.userId.length < 6 ||
+        this.signupuser.userId.length > 16
+      ) {
+        resultDiv.setAttribute("class", "mb-3 text-dark");
+        resultDiv.textContent = "아이디는 6자 이상 16자 이하 입니다.";
+        this.signupuser.userIdChk = false;
+      } else {
+        api.get(`/user/idcheck/${this.signupuser.userId}`).then(({ data }) => {
+          if (data == 0) {
+            resultDiv.setAttribute("class", "mb-3 text-primary");
+            resultDiv.textContent =
+              this.signupuser.userId + "는 사용할 수 있습니다.";
+            this.signupuser.userIdChk = true;
+          } else {
+            resultDiv.setAttribute("class", "mb-3 text-danger");
+            resultDiv.textContent =
+              this.signupuser.userId + "는 사용할 수 없습니다.";
+            this.signupuser.userIdChk = false;
+          }
+        });
+      }
+    },
+    pwdcheck() {
+      let resultDiv = document.querySelector("#pwdcheck-result");
+      if (this.signupuser.userPassword === this.signupuser.reuserPassword) {
+        resultDiv.textContent = "";
+        this.signupuser.userPwdChk = true;
+      }
+      if (this.signupuser.userPassword != this.signupuser.reuserPassword) {
+        resultDiv.setAttribute("class", "mb-3 text-danger");
+        resultDiv.textContent = "비밀번호를 확인해주세요.";
+        this.signupuser.userPwdChk = false;
+      }
+    },
+    emailcheck() {
+      let resultDiv = document.querySelector("#emailcheck-result");
+
+      let regex = new RegExp(
+        // eslint-disable-next-line
+        "([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])"
+      );
+      if (regex.test(this.signupuser.userEmail)) {
+        resultDiv.textContent = "";
+        this.signupuser.userEmailChk = true;
+      } else {
+        resultDiv.setAttribute("class", "mb-3 text-danger");
+        resultDiv.textContent = "올바른 이메일 형식이 아닙니다.";
+        this.signupuser.userEmailChk = false;
+      }
+    },
+    join() {
+      let user = {
+        userId: this.signupuser.userId,
+        userName: this.signupuser.userName,
+        userPassword: this.signupuser.userPassword,
+        userEmail: this.signupuser.userEmail,
+        userPhone: this.signupuser.userPhone,
+        userRole: this.signupuser.userRole,
+      };
+      if (user.userName.value) {
+        alert("이름을 입력해주세요.");
+        return;
+      } else if (user.userId.value) {
+        alert("아이디를 입력해주세요.");
+        return;
+      } else if (!document.querySelector("#signupuser_userPassword").value) {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      } else if (!document.querySelector("#signupuser_reuserPassword").value) {
+        alert("비밀번호를 재입력해주세요.");
+        return;
+      } else if (!this.signupuser.userIdChk) {
+        alert("아이디를 확인해주세요.");
+        return;
+      } else if (!this.signupuser.userPwdChk) {
+        alert("비밀번호를 확인해주세요.");
+        return;
+      } else if (!this.signupuser.userEmailChk) {
+        alert("이메일을 확인해주세요.");
+        return;
+      } else {
+        console.log(user);
+        api.post(`/user/join`, user).then(({ data }) => {
+          if (data.message === "success") {
+            alert("회원가입에 성공하였습니다.");
+            this.$router.push(`/`);
+          } else {
+            alert("회원가입에 실패하였습니다.");
+          }
+        });
+      }
     },
   },
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Fira+Sans");
-
-// html,
-// body {
-//   position: relative;
-//   min-height: 100vh;
-//   background-color: #e1e8ee;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-family: "Fira Sans", Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-// }
 
 .form-structor {
   background-color: #222;
@@ -254,7 +439,7 @@ export default {
 
   .login {
     position: absolute;
-    top: 20%;
+    top: 15%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -313,12 +498,12 @@ export default {
           outline: none;
           box-shadow: none;
           display: block;
-          height: 30px;
-          line-height: 30px;
+          height: 50px;
+          line-height: 50px;
           padding: 8px 15px;
           border-bottom: 1px solid #eee;
           width: 100%;
-          font-size: 12px;
+          font-size: 15px;
 
           &:last-child {
             border-bottom: 0;
