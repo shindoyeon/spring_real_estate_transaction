@@ -10,4 +10,6 @@ public class ReviewDto {
 	private String rating;
 	private String content;
 	private String registerTime;
+	
+	private String apartmentName;
 }

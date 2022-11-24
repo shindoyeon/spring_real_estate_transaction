@@ -11,10 +11,27 @@
 	</insert>
 	
 	<select id="getReviewList" parameterType="string" resultType="ReviewDto">
-		select userId,aptCode,rating,content,registerTime
+		select reviewNo,userId,aptCode,rating,content,registerTime
 		from salereview
 		where aptCode = #{aptCode}
 	</select>
 	
+	<select id="getMyReviewList" parameterType="string" resultType="ReviewDto">
+		select sr.reviewNo,sr.userId,sr.aptCode,sr.rating,sr.content,sr.registerTime, hi.apartmentName
+		from salereview as sr
+		join houseinfo as hi on sr.aptCode = hi.aptCode
+		where sr.userId = #{uesrId}
+	</select>
 	
+	<select id="getOneReview" parameterType="ReviewDto" resultType="ReviewDto">
+		select reviewNo,userId,aptCode,rating,content,registerTime
+		from salereview
+		where aptCode = #{aptCode} and content = #{content} and rating=#{rating}
+	</select>
+	
+	<delete id="deleteReview" parameterType="string">
+		delete
+		from salereview
+		where reviewNo = #{reviewNo}
+	</delete>
 </mapper>

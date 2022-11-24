@@ -174,6 +174,7 @@ export default {
   methods: {
     ...mapActions(memberStore, ["userConfirm", "getUserInfo"]),
     ...mapActions("bookmarkStore", ["getBookmarkList"]),
+    ...mapActions("reviewStore", ["getReviewList", "getMyReviewList"]),
     async confirm() {
       await this.userConfirm(this.loginuser);
       let token = sessionStorage.getItem("access-token");

@@ -12,4 +12,7 @@ public interface ReviewService {
 
 	List<ReviewDto> addReview(ReviewDto reviewDto) throws Exception;
 	List<ReviewDto> getReviewList(String aptCode) throws Exception;
+	List<ReviewDto> getMyReviewList(String userId) throws Exception;
+	ReviewDto getOneReview(ReviewDto reviewDto) throws Exception;
+	List<ReviewDto> deleteReview(String reviewNo, String userId) throws Exception;
 }

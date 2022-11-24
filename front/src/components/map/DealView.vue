@@ -58,7 +58,7 @@
         type="button"
         class="btn btn-danger"
         id="show-modal"
-        @click="showModal = true"
+        @click="showReviewModal"
       >
         <h4 class="m-0">리뷰 등록</h4>
       </button>
@@ -269,18 +269,26 @@ export default {
       //인프라 마커생성 트리거 작동
       this.SET_INFRA_TRIGGER();
     },
+    showReviewModal() {
+      if (!this.isLogin) {
+        alert("로그인이 필요한 서비스입니다.");
+        this.$router.push({ name: "login" });
+      } else {
+        this.showModal = true;
+      }
+    },
     // Modal 관련 메소드
-    showReviewInsertModal() {
-      console.log("리뷰 모달 show () 호출");
-      this.reviewInsertModal.show();
-    },
-    reviewInsertModalClose(houseNo) {
-      this.getHouseReview(houseNo);
-      this.reviewInsertModal.hide();
-    },
-    getHouseReview(aptCode) {
-      console.log("getHouseReview 호출, aptcode:" + aptCode);
-    },
+    // showReviewInsertModal() {
+    //   console.log("리뷰 모달 show () 호출");
+    //   this.reviewInsertModal.show();
+    // },
+    // reviewInsertModalClose(houseNo) {
+    //   this.getHouseReview(houseNo);
+    //   this.reviewInsertModal.hide();
+    // },
+    // getHouseReview(aptCode) {
+    //   console.log("getHouseReview 호출, aptcode:" + aptCode);
+    // },
   },
 };
 </script>

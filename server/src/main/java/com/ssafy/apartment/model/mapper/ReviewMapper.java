@@ -15,5 +15,8 @@ import com.ssafy.apartment.model.ReviewDto;
 public interface ReviewMapper {
 	
 	void addReview(ReviewDto reviewDto) throws SQLException;
+	void deleteReview(String reviewNo) throws SQLException;
 	List<ReviewDto> getReviewList(String aptCode) throws SQLException;
+	List<ReviewDto> getMyReviewList(String userId) throws SQLException;
+	ReviewDto getOneReview(ReviewDto reviewDto) throws SQLException;
 }

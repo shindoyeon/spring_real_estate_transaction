@@ -35,7 +35,7 @@ const dealViewStore = {
     },
     CLEAR_HOUSE_LIST(state) {
       state.houseList = [];
-      state.house = null;
+      state.house = {};
     },
     SET_SIDO_LIST(state, sidos) {
       sidos.forEach((sido) => {

@@ -14,7 +14,7 @@ const memberStore = {
   state: {
     isLogin: false,
     isLoginError: false,
-    userInfo: null,
+    userInfo: {},
     isValidToken: false,
   },
   getters: {
@@ -150,7 +150,7 @@ const memberStore = {
           if (data.message === "success") {
             console.log("로그아웃 액션 들어옴!");
             commit("SET_IS_LOGIN", false);
-            commit("SET_USER_INFO", null);
+            commit("SET_USER_INFO", {});
             commit("SET_IS_VALID_TOKEN", false);
           } else {
             console.log("유저 정보 없음!!!!");
