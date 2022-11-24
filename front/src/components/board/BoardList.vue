@@ -3,13 +3,11 @@
     <b-container fluid="bv-example-row">
       <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12">
-          <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-            <mark class="sky">글목록</mark>
-          </h2>
+          <h2 class="my-3 py-3 shadow-sm bg-light text-center">공지사항</h2>
         </div>
 
         <div class="col-lg-8 col-md-10 col-sm-12">
-          <div class="row align-self-center mb-2">
+          <div class="row align-self-center mb-2" style="padding: 1%">
             <div class="col-md-2 text-start">
               <b-button
                 v-if="isLogin && userInfo.userRole == 1"

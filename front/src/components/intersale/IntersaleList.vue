@@ -3,7 +3,7 @@
     <!-- 관심목록 리스트 -->
     <div class="wrap" v-if="true">
       <div
-        class="bg-white"
+        class="bg-white col-3"
         v-for="(item, index) in myBookmarkList"
         :key="index"
         id="intersale"

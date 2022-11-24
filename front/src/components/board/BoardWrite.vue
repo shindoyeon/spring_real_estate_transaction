@@ -81,7 +81,6 @@ export default {
         (err = false),
         this.$refs.content.focus());
 
-      alert("middle test");
       if (!err) {
         alert(msg);
       } else {

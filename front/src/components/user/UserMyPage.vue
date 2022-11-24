@@ -2,19 +2,16 @@
   <b-container class="container my-5" v-if="userInfo != null">
     <b-row>
       <b-col>
-        <b-alert variant="secondary" show><h3>마이 페이지</h3></b-alert>
+        <h5 class="card-header">마이 페이지</h5>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row style="padding: 1%"></b-row>
+    <b-row class="form-structor m-auto">
       <b-col></b-col>
       <b-col cols="8">
         <b-jumbotron>
-          <template #header>My Page</template>
-
-          <template #lead> 내 정보 확인페이지입니다. </template>
-
+          <h2>My page</h2>
           <hr class="my-4" />
-
           <b-container class="mt-4">
             <b-row>
               <b-col cols="2"></b-col>

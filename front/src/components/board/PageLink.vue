@@ -1,5 +1,5 @@
 <template>
-  <ul class="pagination justify-content-center">
+  <ul class="pagination justify-content-center" style="padding: 2%">
     <li class="page-item" v-if="prev">
       <router-link
         :to="`/board/list?no=${(startPageIndex - 1) * listRowCount}`"
