@@ -1,42 +1,31 @@
 <template>
-  <b-container class="container my-5" v-if="userInfo != null">
+  <b-container class="container my-3" v-if="userInfo != null">
     <b-row>
       <b-col>
         <h5 class="card-header">마이 페이지</h5>
       </b-col>
     </b-row>
     <b-row style="padding: 1%"></b-row>
-    <b-row class="form-structor m-auto">
-      <b-col></b-col>
-      <b-col cols="8">
-        <b-jumbotron>
+    <b-row class="form-structor m-3">
+      <b-col style="text-align: left">
+        <b-jumbotron bg-variant="light">
           <h2>My page</h2>
-          <hr class="my-4" />
+          <hr class="my-4" style="width: 60%" />
           <b-container class="mt-4">
             <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">아이디</b-col
-              ><b-col cols="4" align-self="start">{{ userInfo.userId }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="1" align-self="start">아이디</b-col
+              ><b-col align-self="start">{{ userInfo.userId }}</b-col>
             </b-row>
             <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">이름</b-col
-              ><b-col cols="4" align-self="start">{{
-                userInfo.userName
-              }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="1" align-self="start">이름</b-col
+              ><b-col align-self="start">{{ userInfo.userName }}</b-col>
             </b-row>
             <b-row>
-              <b-col cols="2"></b-col>
-              <b-col cols="2" align-self="end">이메일</b-col
-              ><b-col cols="4" align-self="start">{{
-                userInfo.userEmail
-              }}</b-col>
-              <b-col cols="2"></b-col>
+              <b-col cols="1" align-self="start">이메일</b-col
+              ><b-col align-self="start">{{ userInfo.userEmail }}</b-col>
             </b-row>
           </b-container>
-          <hr class="my-4" />
+          <hr class="my-4" style="width: 60%" />
 
           <router-link :to="{ name: 'usermodify' }" class="link"
             ><b-button variant="primary" class="mr-1"
@@ -48,7 +37,6 @@
           >
         </b-jumbotron>
       </b-col>
-      <b-col></b-col>
     </b-row>
   </b-container>
 </template>
