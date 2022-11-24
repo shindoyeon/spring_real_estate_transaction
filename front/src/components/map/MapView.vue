@@ -101,10 +101,12 @@ export default {
     ]),
     ...mapState("bookmarkStore", ["bookmarkList"]),
     ...mapState("kakaoStore", ["pharmsList", "subwaysList", "banksList"]),
+    ...mapState("reivewStore", ["reviewList"]),
   },
   methods: {
     //액션
     ...mapActions(storeName, ["getHouseDealList"]),
+    ...mapActions("reviewStore", ["getReviewList"]),
     //뮤테이션
     ...mapMutations(storeName, ["SET_CURINDEX", "SET_LISTVISIBLE"]),
     ...mapMutations("bookmarkStore", ["SET_ISBOOKMARK"]),
@@ -383,8 +385,7 @@ export default {
 
       const houseNo = this.houseList[index].aptCode;
       this.getHouseDealList(houseNo);
-      // this.getOngoingList(houseNo);
-      // this.getHouseReview(houseNo);
+      this.getReviewList(houseNo);
       if (!this.listVisible) this.SET_LISTVISIBLE(true);
 
       let bookchk = false;

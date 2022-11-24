@@ -28,9 +28,6 @@
               매물</router-link
             ></b-nav-item
           >
-          <button href="#" class="nav-item" @click="kakaoTest">
-            <b-icon icon="building" font-scale="2"></b-icon> 테스트
-          </button>
           <b-nav-item
             href="#"
             class="nav-item"
@@ -85,9 +82,7 @@
 </template>
 <script>
 import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
-import { kakaoApiInstance } from "@/api/kakao.js";
 
-const kakaoHttp = kakaoApiInstance();
 const memberStore = "memberStore";
 
 export default {
@@ -131,18 +126,6 @@ export default {
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
       if (this.$route.path != "/") this.$router.push({ name: "home" });
-    },
-    kakaoTest() {
-      kakaoHttp
-        .get(
-          `/v2/local/search/category.json?category_group_code=PM9&x=127.039585&y=37.5012743&radius=3000`
-        )
-        .then(({ data }) => {
-          console.log(data.documents);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
     },
   },
 };

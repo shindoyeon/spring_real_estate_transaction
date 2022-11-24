@@ -47,55 +47,23 @@
     <!-- 주변 인프라 버튼 -->
     <div class="bg-white mb-2 p-3 border-bottom d-flex align-items-center">
       <button @click="setInfraBookmark" type="button" class="btn btn-info">
-        <h4 class="m-0 justify-content-center">주변 인프라 정보 보기</h4>
+        <h4 class="m-0">주변 인프라 정보</h4>
+      </button>
+
+      <!-- 원래 리뷰 버튼 -->
+      <!-- @click="showReviewInsertModal" -->
+      <!-- 새로 만든 모달 버틀 -->
+      <!-- @click="showModal = true" -->
+      <button
+        type="button"
+        class="btn btn-danger"
+        id="show-modal"
+        @click="showModal = true"
+      >
+        <h4 class="m-0">리뷰 등록</h4>
       </button>
     </div>
-    <!-- 거주민 리뷰 -->
-    <!-- <div class="bg-white mb-2">
-      <div class="d-flex justify-content-between align-items-center">
-        <h5 class="p-3 m-0">거주민 리뷰</h5>
 
-        <b-icon icon="plus-circle" font-scale="2"></b-icon>
-      </div>
-      <div v-if="reviewchk" class="p-3 border-top">
-        <div>등록된 리뷰가 없습니다.</div>
-      </div>
-      <div v-else>
-        <div class="border-top border-bottom d-flex align-items-center p-2">
-          <div class="text-secondary ps-2 pe-3">
-            <b-icon v-if="profilechk" icon="person" font-scale="2"></b-icon>
-          </div>
-          <div class="d-flex flex-column">
-            <h6 class="m-0">신동희</h6>
-            <div class="text-secondary" style="font-size: 0.9rem">
-              2022.11.17 가입
-            </div>
-          </div>
-        </div>
-        <div class="px-3">
-          <div class="border-bottom d-flex py-2 text-danger">
-            <div class="w-25">추천점수</div>
-            <div>5</div>
-          </div>
-          <div class="border-bottom d-flex py-2">
-            <div class="text-secondary w-25">교통요건</div>
-            <div>5</div>
-          </div>
-          <div class="border-bottom d-flex py-2">
-            <div class="text-secondary w-25">거주환경</div>
-            <div>5</div>
-          </div>
-          <div class="border-bottom d-flex py-2">
-            <div class="text-secondary w-25">주변환경</div>
-            <div>5</div>
-          </div>
-          <div class="pt-2 text-secondary">종합의견</div>
-          <div class="py-2">
-            <h6>낫배두</h6>
-          </div>
-        </div>
-      </div>
-    </div> -->
     <!-- 실거래가 -->
     <div class="bg-white mb-2">
       <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
@@ -138,38 +106,65 @@
         </table>
       </div>
     </div>
-    <!-- 매물정보 -->
-    <!-- <div class="bg-white mb-2">
-      <div class="border-bottom"><h5 class="p-3 m-0">매물 정보</h5></div>
-      <div>
-        <table class="w-100">
-          <thead class="bg-secondary text-white">
-            <tr>
-              <td class="ps-3 py-1">타입</td>
-              <td class="w-50">제목</td>
-              <td>거래가격</td>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody class="px-2">
-            <tr v-if="dealchk" class="border-bottom">
-              <td colspan="3" class="ps-3 py-2">등록된 매물이 없습니다.</td>
-            </tr>
-            <tr v-else v-for="index in 5" :key="index" class="border-bottom">
-              <td class="ps-3 py-2">빌딩</td>
-              <td>제목</td>
-              <td>1억</td>
-            </tr>
-          </tbody>
-        </table>
+    <!-- 거주민 리뷰 -->
+    <div class="bg-white mb-2">
+      <div v-if="reviewList.length == 0" class="p-3 border-top">
+        <div>등록된 리뷰가 없습니다.</div>
       </div>
-    </div> -->
+      <!-- 등록 리뷰 있을 때 v-for 속성 추가-->
+      <div v-else v-for="(review, index) in reviewList" :key="index">
+        <div class="border-top border-bottom d-flex align-items-center p-2">
+          <div class="text-secondary ps-2 pe-3">
+            <img
+              class="avatar rounded-circle"
+              width="25px"
+              src="../../assets/images/profile_av.png"
+            />
+          </div>
+          <div class="d-flex flex-column">
+            <h6 class="m-0">{{ review.userId }}</h6>
+          </div>
+        </div>
+        <div class="px-3">
+          <div class="border-bottom d-flex py-2 text-danger">
+            <div class="w-25">추천점수</div>
+            <div>
+              <StarRating
+                v-model="review.rating"
+                active-color="#dc3545"
+                :read-only="true"
+                :show-rating="false"
+                :rounded-corners="true"
+                :star-size="20"
+                :star-points="[
+                  23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34,
+                  46, 19, 31, 17,
+                ]"
+              ></StarRating>
+            </div>
+          </div>
+          <div class="pt-2 text-secondary">종합의견</div>
+          <div class="py-2">
+            <h6>{{ review.content }}</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+    <review-modal v-if="showModal" @close="showModal = false">
+      <!--
+       you can use custom content here to overwrite
+       default content
+       -->
+      <h3 slot="header">리뷰 등록</h3>
+    </review-modal>
   </div>
 </template>
 
 <script>
 import LineChart from "@/components/chart/LineChart.vue";
 import { mapActions, mapMutations, mapState } from "vuex";
+import StarRating from "vue-star-rating";
+import ReviewModal from "@/components/review/ReviewModal.vue";
 // import { kakaoApiInstance } from "@/api/kakao.js";
 // import { apiInstance } from "@/api/index.js";
 
@@ -181,6 +176,8 @@ export default {
   name: "DealView",
   components: {
     LineChart,
+    StarRating,
+    ReviewModal,
   },
   data() {
     return {
@@ -191,8 +188,18 @@ export default {
       inputKeyword: "",
       eventFrom: "",
       bookmark: "",
+      modalVisible: false,
+      reviewInsertModal: null,
+      showModal: false,
     };
   },
+  // updated() {
+  //   console.log("dealView updated");
+  //   if (this.listVisible) console.log("모달 초기화");
+  //   this.reviewInsertModal = new Modal(
+  //     document.getElementById("reviewInsertModal")
+  //   );
+  // },
   computed: {
     ...mapState(storeName, [
       "gu",
@@ -207,6 +214,7 @@ export default {
     ...mapState("bookmarkStore", ["bookmarkList", "isBookmark"]),
     ...mapState("kakaoStore", ["pharmsList", "subwaysList", "banksList"]),
     ...mapState("dealViewStore", ["infraTrigger"]),
+    ...mapState("reviewStore", ["reviewList"]),
   },
 
   methods: {
@@ -232,13 +240,14 @@ export default {
       }
     },
     setBookmark() {
-      let param = {
-        aptCode: this.houseList[this.curIndex].aptCode,
-        userId: this.userInfo.userId,
-      };
       if (!this.isLogin) {
         alert("로그인이 필요한 서비스입니다.");
+        this.$router.push({ name: "login" });
       } else {
+        let param = {
+          aptCode: this.houseList[this.curIndex].aptCode,
+          userId: this.userInfo.userId,
+        };
         if (!this.isBookmark) {
           this.insertBookmark(param);
         } else {
@@ -259,6 +268,18 @@ export default {
 
       //인프라 마커생성 트리거 작동
       this.SET_INFRA_TRIGGER();
+    },
+    // Modal 관련 메소드
+    showReviewInsertModal() {
+      console.log("리뷰 모달 show () 호출");
+      this.reviewInsertModal.show();
+    },
+    reviewInsertModalClose(houseNo) {
+      this.getHouseReview(houseNo);
+      this.reviewInsertModal.hide();
+    },
+    getHouseReview(aptCode) {
+      console.log("getHouseReview 호출, aptcode:" + aptCode);
     },
   },
 };
