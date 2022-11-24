@@ -71,7 +71,7 @@
       </div>
       <div v-if="searchType == 'K'" class="input-group pb-2 px-3">
         <input
-          @keyup.enter="onKeywordSearch"
+          @keypress.enter="onKeywordSearch"
           type="text"
           v-model="inputKeyword"
           class="form-control d-inline-block"

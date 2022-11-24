@@ -48,7 +48,8 @@
 	 				  , hinfo.dong, hinfo.bonbun, hinfo.bubun, hinfo.sigunguCode, hinfo.eubmyundongCode, hinfo.dongCode, hinfo.landCode, hinfo.apartmentName, hinfo.jibun, hinfo.lng, hinfo.lat
   				   from houseinfo hinfo, dongcode dc
  				  where hinfo.dongCode = dc.dongCode
-   					and ((match(hinfo.apartmentName) against(concat('%',#{keyword}, '%'))) or (match(dc.dongName) against(concat('%',#{keyword}, '%'))))
+ 				    and hinfo.dong = dc.dongName
+   					and ((match(hinfo.apartmentName) against(#{keyword})) or (match(dc.dongName) against(#{keyword})))
                    ) hi, housedeal hd 
  		 where hi.aptCode = hd.aptCode
  		 group by hi.aptCode

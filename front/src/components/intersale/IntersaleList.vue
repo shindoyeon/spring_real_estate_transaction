@@ -1,84 +1,103 @@
 <template>
   <div>
     <!-- 관심목록 리스트 -->
-    <div class="wrap" v-if="true">
+    <div class="wrap" v-if="myBookmarkList.length > 0">
       <div
-        class="bg-white col-3"
+        class="bg-white"
         v-for="(item, index) in myBookmarkList"
         :key="index"
         id="intersale"
       >
         <!-- 관심 매물 정보 -->
-        <div>
+        <div style="margin-bottom: 20px">
           <button
             @click="showDetail(item.aptCode)"
             type="button"
-            style="border: 0; outline: 0; background-color: white"
+            style="border: 0; outline: 0; background-color: white; float: left"
           >
-            <h4 class="m-0">{{ item.apartmentName }}</h4>
+            <h5 class="m-0" style="text-align: left">
+              {{ item.apartmentName }}
+            </h5>
           </button>
           <button
             @click="setBookmarkOne(item.aptCode)"
             type="button"
             style="border: 0; outline: 0; background-color: white"
           >
-            <b-icon icon="heart-fill" font-scale="2" variant="danger"></b-icon>
+            <b-icon icon="heart-fill" scale="1.5" variant="danger"></b-icon>
           </button>
           <!-- contents -->
         </div>
-        <div class="px-3">
+        <div class="px-2">
           <div class="d-flex py-1">
-            <div class="text-secondary w-25">주소</div>
-            {{ item.dong }} {{ item.jibun }}
+            <div class="text-secondary w-25" style="text-align: left">주소</div>
+            <div style="margin-left: 3">{{ item.dong }} {{ item.jibun }}</div>
           </div>
           <div class="d-flex py-1">
-            <div class="text-secondary w-25">건축년도</div>
-            {{ item.buildYear }}
+            <div class="text-secondary w-25" style="text-align: left">
+              건축년도
+            </div>
+            <div style="margin-left: 3">
+              {{ item.buildYear }}
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div class="wrap" v-else>관심매물이 없습니다.</div>
+    <div class="container">
+      <b-row>
+        <h5 class="my-4 py-2 shadow-sm bg-light text-center bg-white">
+          관심매물 상세내역
+        </h5>
 
-    <div class="d-flex justify-content-end">
-      <!-- 관심매물 실거래가 리스트 -->
-      <div id="dealList" class="card p-0 bg-secondary" v-if="saleVisible">
-        <!-- <b-icon icon="house" font-scale="2"></b-icon> -->
+        <!-- <div class="d-flex justify-content-end"> -->
+        <!-- 관심매물 실거래가 리스트 -->
         <div
-          class="text-center text-primary py-2 bg-primary"
-          style="cursor: pointer"
-        ></div>
-        <!-- 실거래가 -->
-        <div class="bg-white mb-2">
-          <div class="border-bottom"><h5 class="p-3 m-0">실거래가</h5></div>
-          <div>
-            <table class="w-100">
-              <thead class="bg-secondary text-white">
-                <tr>
-                  <td class="ps-3 py-1">거래일</td>
-                  <td>거래가격</td>
-                  <td>면적</td>
-                  <td>층수</td>
-                </tr>
-              </thead>
-              <tbody class="px-2">
-                <tr
-                  v-for="(item, index) in houseDealList"
-                  :key="index"
-                  class="border-bottom"
-                >
-                  <td class="ps-3 py-2">{{ item.dealYear }}</td>
-                  <td>{{ item.dealAmount }}</td>
-                  <td>{{ item.area }}</td>
-                  <td>{{ item.floor }}</td>
-                </tr>
-              </tbody>
-            </table>
+          id="dealList"
+          class="card p-0 bg-secondary flex"
+          v-if="saleVisible"
+        >
+          <!-- <b-icon icon="house" font-scale="2"></b-icon> -->
+          <div
+            class="text-center text-primary py-2 bg-primary"
+            style="cursor: pointer"
+          ></div>
+          <!-- 실거래가 -->
+          <div class="bg-white mb-2">
+            <div class="border-bottom">
+              <h5 class="p-3 m-0">실거래가</h5>
+            </div>
+            <div>
+              <table class="w-100">
+                <thead class="bg-secondary text-white">
+                  <tr>
+                    <td class="ps-3 py-1">거래일</td>
+                    <td>거래가격</td>
+                    <td>면적</td>
+                    <td>층수</td>
+                  </tr>
+                </thead>
+                <tbody class="px-2">
+                  <tr
+                    v-for="(item, index) in houseDealList"
+                    :key="index"
+                    class="border-bottom"
+                  >
+                    <td class="ps-3 py-2">{{ item.dealYear }}</td>
+                    <td>{{ item.dealAmount }}</td>
+                    <td>{{ item.area }}</td>
+                    <td>{{ item.floor }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-      <!-- 실거래가 차트 -->
-      <div id="chart" v-if="saleVisible"><line-chart /></div>
+        <!-- 실거래가 차트 -->
+        <div id="chart" v-if="saleVisible"><line-chart /></div>
+        <!-- </div> -->
+      </b-row>
     </div>
   </div>
 </template>
@@ -198,7 +217,7 @@ export default {
 <style scoped>
 .wrap {
   width: 80%;
-  height: 150px;
+  height: 160px;
   overflow-x: scroll;
   white-space: nowrap;
   margin: auto;
@@ -207,7 +226,7 @@ export default {
 }
 
 .wrap div {
-  width: auto;
+  width: 350px;
 }
 
 #intersale {
@@ -216,14 +235,13 @@ export default {
 
 #dealList {
   position: absolute;
-
   top: 300px;
-  bottom: 20px;
+  /* bottom: 20px; */
   left: 200px;
-
   width: 400px;
-  padding: 10px;
-
+  height: 550px;
+  padding: 30px;
+  margin-top: 5%;
   z-index: 100;
   /* background-color:rgba(255, 244, 244, 0.8); */
   /* opacity: 0.5; */
@@ -233,12 +251,12 @@ export default {
 
 #chart {
   position: absolute;
-
   top: 300px;
   bottom: 20px;
   left: 650px;
-
-  width: 1050px;
-  height: 800px;
+  width: 800px;
+  height: 600px;
+  margin-top: 5%;
+  text-align: center;
 }
 </style>

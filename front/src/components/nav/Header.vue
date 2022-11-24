@@ -42,6 +42,7 @@
         <b-navbar-nav class="ml-auto float-right" v-if="isLogin">
           <b-nav-item class="align-self-center">
             <b-avatar
+              v-if="userInfo.userId != null"
               variant="primary"
               v-text="userInfo.userId.charAt(0).toUpperCase()"
             ></b-avatar>
@@ -49,7 +50,7 @@
           </b-nav-item>
           <b-nav-item class="align-self-center">
             <router-link :to="{ name: 'mypage' }" class="link align-self-center"
-              >내정보보기</router-link
+              >My Page</router-link
             >
           </b-nav-item>
           <b-nav-item
@@ -96,15 +97,17 @@ export default {
   },
   watch: {
     userInfo(newVal, oldVal) {
-      console.log(oldVal);
-      if (newVal.userRole == "0") {
-        console.log("일반회원 들어왔다");
-        this.isAdmin = false;
-        console.log("isAdmin:" + this.isAdmin);
-      } else if (newVal.userRole == "1") {
-        console.log("어드민 들어왔다");
-        this.isAdmin = true;
-        console.log("isAdmin:" + this.isAdmin);
+      if (this.isLogin) {
+        console.log(oldVal);
+        if (newVal.userRole == "0") {
+          console.log("일반회원 들어왔다");
+          this.isAdmin = false;
+          console.log("isAdmin:" + this.isAdmin);
+        } else if (newVal.userRole == "1") {
+          console.log("어드민 들어왔다");
+          this.isAdmin = true;
+          console.log("isAdmin:" + this.isAdmin);
+        }
       }
     },
   },

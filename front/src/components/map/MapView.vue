@@ -25,6 +25,7 @@ export default {
 
   data() {
     return {
+      init: false,
       markers: [],
       pharmMarkers: [],
       subwayMarkers: [],
@@ -58,6 +59,10 @@ export default {
   },
   watch: {
     houseList: function () {
+      if (this.init && this.houseList.length == 0) {
+        alert("조회된 매매내역이 없습니다.");
+      }
+      this.init = true;
       //클러스터 + 오버레이 초기화
       if (this.clusterer != null) {
         this.clusterer.clear();
@@ -129,12 +134,12 @@ export default {
         // var level = map.getLevel();
         // var message = "현재 지도 레벨은 " + level + " 입니다";
         // console.log(message);
-
         this.setOverlay();
       });
     },
     setOverlay() {
       var level = this.map.getLevel();
+      console.log("현재 지도의 레벨은 " + level + "입니다");
       if (level > 6) {
         let i;
         for (i = 0; i < this.overlays.length; i++) {

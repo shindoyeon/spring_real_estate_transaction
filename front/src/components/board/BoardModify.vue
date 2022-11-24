@@ -36,7 +36,7 @@
           <button
             type="button"
             id="btn-modify"
-            class="btn btn-outline-primary mb-3"
+            class="btn btn-outline-primary mb-3 ms-3"
             @click="updateArticle()"
           >
             글수정
@@ -44,7 +44,7 @@
           <button
             type="button"
             id="btn-list"
-            class="btn btn-outline-danger mb-3"
+            class="btn btn-outline-danger mb-3 ms-3"
           >
             목록으로이동...
           </button>
