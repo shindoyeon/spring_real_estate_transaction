@@ -46,10 +46,10 @@
     <tr>
       <td rowspan="2">신도연</td>
       <td rowspan="2">팀장</td>
-      <td>추후 추가</td>
+      <td>Back-End (DB설계 및 회원 관리 기능, 지도 검색, 관리자 기능, 공지사항 등)</td>
     </tr>
     <tr>
-      <td>추후 추가</td>
+      <td>Front-End (카카오맵 API를 활용한 지도뷰, 회원 관리, 페이지 내 전체적인 css 수정)</td>
     </tr>
     <tr>
       <td rowspan="2">신동희</td>
