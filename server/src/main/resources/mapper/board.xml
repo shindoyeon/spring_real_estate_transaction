@@ -82,6 +82,7 @@
 		<where>
 			<include refid="search"></include>
 		</where>
+		order by registerTime desc
 		limit #{limit} offset #{offset}
 	</select>
 

@@ -46,14 +46,17 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 const http = apiInstance();
+const memberStore = "memberStore";
+
 export default {
   name: "BoardWrite",
   data() {
     return {
       article: {
         articleno: 0,
-        userId: "ssafy",
+        userId: "",
         subject: "",
         content: "",
       },
@@ -61,6 +64,9 @@ export default {
     };
   },
   created() {},
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   methods: {
     moveList() {
       this.$router.push(`/board`);
@@ -96,7 +102,7 @@ export default {
     },
     writeBoard() {
       let myData = {
-        userId: "ssafy",
+        userId: this.userInfo.userId,
         subject: this.article.subject,
         content: this.article.content,
       };
