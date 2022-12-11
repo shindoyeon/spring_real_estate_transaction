@@ -2,11 +2,6 @@
 
 🐱 본 프로젝트는 **삼성 청년 SW아카데미** 1학기 파이널 프로젝트입니다.
 
-## 목차
-
-
-
----
 
 ## 개요
 
@@ -81,25 +76,31 @@
 
 ![memberucl.png](gifs/memberucl.png)
 
+
 ✅**Bookmark UML**
 
 ![bookmarkucl.png](gifs/bookmarkucl.png)
+
 
 ✅**Review UML**
 
 ![reviewucl.png](gifs/reviewucl.png)
 
+
 ✅**Deal UML**
 
 ![dealucl.png](gifs/dealucl.png)
+
 
 ✅**Map UML**
 
 ![mapucl.png](gifs/mapucl.png)
 
+
 ✅**Board UML**
 
 ![boarducl.png](gifs/boarducl.png)
+
 
 ## 주요기능
 
@@ -134,49 +135,61 @@
 
 ![Untitled](gifs/register.gif)
 
+
 **✅ 비밀번호 찾기 및 로그인**
 
 ![Untitled](gifs/findPassword.gif)
+
 
 **✅ 회원정보 수정 및 확인**
 
 ![Untitled](gifs/modifyUser.gif)
 
+
 **✅ 회원탈퇴**
 
 ![Untitled](gifs/DelUser.gif)
+
 
 **✅ 관리자 로그인 시 헤더 변경**
 
 ![Untitled](gifs/changeHeaderAdmin.gif)
 
+
 **✅ 공지사항 등록 및 키워드 검색**
 
 ![Untitled](gifs/regiNoticeKeySearch.gif)
+
 
 **✅ 관리자 회원 관리**
 
 ![Untitled](gifs/manageUser.gif)
 
+
 **✅ 동 검색**
 
 ![Untitled](gifs/searchDong.gif)
+
 
 **✅ 키워드 검색**
 
 ![Untitled](gifs/searchKeyword.gif)
 
+
 **✅ 관심매물 등록**
 
 ![Untitled](gifs/regiInter.gif)
+
 
 **✅ 관심매물 조회 및 삭제**
 
 ![Untitled](gifs/view,deleteInter.gif)
 
+
 **✅ 리뷰 등록 및 관리**
 
 ![Untitled](gifs/regiReview.gif)
+
 
 **✅ 리뷰 조회**
 
