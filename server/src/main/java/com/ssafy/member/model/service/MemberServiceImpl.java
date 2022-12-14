@@ -130,10 +130,10 @@ public class MemberServiceImpl implements MemberService {
 
 		final String charSet = "utf-8";
         final String hostSMTP = "smtp.naver.com";
-        final String hostSMTPid = "dyeon7310";
-        final String hostSMTPpwd = "monica8986*";
+        final String hostSMTPid = "";	//호스트 아이디
+        final String hostSMTPpwd = "";	//호스트 비밀번호
 
-        final String fromEmail = "dyeon7310@naver.com";
+        final String fromEmail = "";	//호스트 이메일
         final String fromName = "HAPPY HOUSE";
         final String subject = "Happy House 계정 패스워드 초기화 정보입니다.";
         String msg = "<div style='border: 1px solid black; padding: 10px; font-family: verdana;'>";
